@@ -5,7 +5,8 @@
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
       </div>
-      <div class="sidebar-brand-text mx-3">Admin</div>
+      <div class="sidebar-brand-text mx-3"> <?php $roles = Auth()->user()->getRoleNames(); ?>
+        <label class="">{{Str::ucfirst($roles[0])  }}</label></div>
     </a>
 
     <!-- Divider -->
@@ -17,7 +18,7 @@
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
-    
+
     <!-- Divider -->
     <hr class="sidebar-divider">
     {{-- Products --}}
@@ -29,8 +30,8 @@
         <div id="productCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Product Options:</h6>
-            <a class="collapse-item" href=" {{ route((auth()->user()->role == 'admin') ? 'product.index' : 'vproduct.index' ) }}">Products</a>
-            <a class="collapse-item" href="{{route( (auth()->user()->role == 'admin') ? 'product.create' : 'vproduct.create'  )}}">Add Product</a>
+            <a class="collapse-item" href=" {{ route((auth()->user()->role == 'admin') ? 'vproduct.index' : 'vproduct.index' ) }}">Products</a>
+            <a class="collapse-item" href="{{route( (auth()->user()->role == 'admin') ? 'vproduct.create' : 'vproduct.create'  )}}">Add Product</a>
           </div>
         </div>
     </li>
@@ -55,8 +56,8 @@
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Banner Options:</h6>
-          <a class="collapse-item" href="{{route('banner.index')}}">Banners</a>
-          <a class="collapse-item" href="{{route('banner.create')}}">Add Banners</a>
+          <a class="collapse-item" href">Banners</a>
+          <a class="collapse-item" href">Add Banners</a>
         </div>
       </div>
     </li> -->
@@ -112,7 +113,7 @@
     <hr class="sidebar-divider">
 
     <!-- Heading -->
-    
+
     <!-- Posts -->
     <!--
     <div class="sidebar-heading">
@@ -142,11 +143,11 @@
             <a class="collapse-item" href="{{route('post-category.index')}}">Category</a>
             <a class="collapse-item" href="{{route('post-category.create')}}">Add Category</a>
           </div>
-        </div> 
+        </div>
       </li>-->
 
       <!-- Tags -->
-    
+
 
       <!-- Comments -->
       <!-- <li class="nav-item">
@@ -186,11 +187,11 @@
             <i class="fas fa-cog"></i>
             <span>Settings</span></a>
     </li>
-     
+
   @endif
 
-    
-    
+
+
 
     {{-- Shipping --}}
     <li class="nav-item">
@@ -221,10 +222,10 @@
             <i class="fas fa-comments"></i>
             <span>Reviews</span></a>
     </li>
-    
+
 
     <!-- Divider -->
-    
+
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

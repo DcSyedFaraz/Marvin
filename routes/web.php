@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminTeamController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\coach\TeamController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Auth\LoginController;
@@ -19,10 +24,10 @@ use App\Http\Controllers\PaypalController;
 
 
 Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-
+Route::get('logout', [LoginController::class, 'logout']);
 
 Route::get('payment-paypal', [PaypalController::class,'postPaymentWithpaypal'])->name('payment-paypal')->middleware('auth');
 Route::get('status', [PaypalController::class,'getPaymentStatus'])->name('status')->middleware('auth');
@@ -43,10 +48,10 @@ Route::get('admin/login',[LoginController::class,'admin_login'])->name('admin_lo
 
 Route::get('vendor/login',[LoginController::class,'vendor_login'])->name('vendor_login.form');
 Route::post('vendor/login',[LoginController::class,'vendor_login_submit'])->name('vendor.login');
-Route::post('vendor/register',[FrontendController::class,'vendorregisterSubmit'])->name('vendor_register.submit');
+Route::post('vendor/register',[FrontendController::class,'institute_register'])->name('institute_register.submit');
 // Reset password
-Route::post('password-reset', [FrontendController::class,'showResetForm'])->name('password.reset'); 
-// Socialite 
+Route::post('password-reset', [FrontendController::class,'showResetForm'])->name('password.reset');
+// Socialite
 Route::get('login/{provider}/', [\App\Http\Controllers\Auth\LoginController::class,'redirect'])->name('login.redirect');
 Route::get('login/{provider}/callback/', [\App\Http\Controllers\Auth\LoginController::class,'Callback'])->name('login.callback');
 
@@ -93,18 +98,27 @@ Route::post('/subscribe',[FrontendController::class,'subscribe'])->name('subscri
 
 // Backend section start
 
-Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function(){
+Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']],function(){
     Route::get('/dashboard',[\App\Http\Controllers\Admin\DashboardController::class,'index'])->name('admin.dashboard');
-    
+
     Route::get('/file-manager',function(){
         return view('backend.layouts.file-manager');
     })->name('file-manager');
+
+    Route::resource('roles', RoleController::class);
+    Route::resource('permission', PermissionController::class);
+
     Route::resource('college',\App\Http\Controllers\Admin\CollegesController::class);
     Route::resource('sport',\App\Http\Controllers\Admin\SportsController::class);
     // user route
-    Route::resource('users',\App\Http\Controllers\UsersController::class);
+    Route::resource('users',UsersController::class);
     // vendor route
     Route::resource('vendors',\App\Http\Controllers\VendorsController::class);
+
+     //Teams
+     Route::resource('teams',AdminTeamController::class);
+
+
     // Settings
     Route::get('settings',[\App\Http\Controllers\Admin\AdminController::class,'settings'])->name('settings');
     Route::post('setting/update',[\App\Http\Controllers\Admin\AdminController::class,'settingsUpdate'])->name('settings.update');
@@ -112,7 +126,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function(){
     // Profile
     Route::get('/profile',[\App\Http\Controllers\Admin\AdminController::class,'profile'])->name('admin.profile');
     Route::post('/profile/{id}',[\App\Http\Controllers\Admin\AdminController::class,'profileUpdate'])->name('profile-update');
-    
+
     // Password Change
     Route::get('change-password', [\App\Http\Controllers\Admin\AdminController::class,'changePassword'])->name('change.password.form');
     Route::post('change-password', [\App\Http\Controllers\Admin\AdminController::class,'changPasswordStore'])->name('change.password');
@@ -123,55 +137,74 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin']],function(){
 
 
 
-// Vendor
-Route::group(['prefix'=>'/vendor','middleware'=>['auth','vendor']],function(){
-    Route::get('/dashboard',[\App\Http\Controllers\Vendor\DashboardController::class,'index'])->name('vendor.dashboard');
+// college
+Route::group(['prefix'=>'/college','middleware'=>['auth','role:college']],function(){
+    Route::get('/dashboard',[\App\Http\Controllers\Vendor\DashboardController::class,'index'])->name('college.dashboard');
     // Product
-    Route::resource('/vproduct',\App\Http\Controllers\Vendor\ProductController::class);
-    Route::get('/vproductqa',[\App\Http\Controllers\Vendor\ProductQAController::class,'index'])->name('vproductqa.index');
-    Route::get('/vproductqa/edit/{id}',[\App\Http\Controllers\Vendor\ProductQAController::class,'edit'])->name('vproductqa.edit');
-    Route::put('/vproductqa/update/{id}',[\App\Http\Controllers\Vendor\ProductQAController::class,'update'])->name('vproductqa.update');
-    // Order
-    Route::resource('/order',\App\Http\Controllers\Vendor\OrderController::class);
-    Route::get('order/pdf/{id}',[\App\Http\Controllers\Vendor\OrderController::class,'pdf'])->name('vorder.pdf');
+    // Route::resource('/vproduct',\App\Http\Controllers\Vendor\ProductController::class);
+    // Route::get('/vproductqa',[\App\Http\Controllers\Vendor\ProductQAController::class,'index'])->name('vproductqa.index');
+    // Route::get('/vproductqa/edit/{id}',[\App\Http\Controllers\Vendor\ProductQAController::class,'edit'])->name('vproductqa.edit');
+    // Route::put('/vproductqa/update/{id}',[\App\Http\Controllers\Vendor\ProductQAController::class,'update'])->name('vproductqa.update');
+    // // Order
+    // Route::resource('/order',\App\Http\Controllers\Vendor\OrderController::class);
+    // Route::get('order/pdf/{id}',[\App\Http\Controllers\Vendor\OrderController::class,'pdf'])->name('vorder.pdf');
+
+    // // Profile
+    // Route::get('/profile',[\App\Http\Controllers\Vendor\VendorController::class,'profile'])->name('vendor.profile');
+    // Route::post('/profile/{id}',[\App\Http\Controllers\Vendor\VendorController::class,'profileUpdate'])->name('vendor-profile-update');
+
+});
+
+// athelete section start
+Route::group(['prefix'=>'/athelete','middleware'=>['auth','role:athelete']],function(){
+    Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'index'])->name('athelete.dashboard');
 
     // Profile
-    Route::get('/profile',[\App\Http\Controllers\Vendor\VendorController::class,'profile'])->name('vendor.profile');
-    Route::post('/profile/{id}',[\App\Http\Controllers\Vendor\VendorController::class,'profileUpdate'])->name('vendor-profile-update');
+    //  Route::get('/profile',[\App\Http\Controllers\HomeController::class,'profile'])->name('user-profile');
+    //  Route::post('/profile/{id}',[\App\Http\Controllers\HomeController::class,'profileUpdate'])->name('user-profile-update');
+
+    //  //  Order
+    // Route::get('/order',[\App\Http\Controllers\HomeController::class,'orderIndex'])->name('user.order.index');
+    // Route::get('/order/show/{id}',[\App\Http\Controllers\HomeController::class,"orderShow"])->name('user.order.show');
+    // Route::delete('/order/delete/{id}',[\App\Http\Controllers\HomeController::class,'userOrderDelete'])->name('user.order.delete');
+
+    // // Product Review
+    // Route::get('/user-review',[\App\Http\Controllers\HomeController::class,'productReviewIndex'])->name('user.productreview.index');
+    // Route::delete('/user-review/delete/{id}',[\App\Http\Controllers\HomeController::class,'productReviewDelete'])->name('user.productreview.delete');
+    // Route::get('/user-review/edit/{id}',[\App\Http\Controllers\HomeController::class,'productReviewEdit'])->name('user.productreview.edit');
+    // Route::patch('/user-review/update/{id}',[\App\Http\Controllers\HomeController::class,'productReviewUpdate'])->name('user.productreview.update');
+
+    // // Post comment
+    // Route::get('user-post/comment',[\App\Http\Controllers\HomeController::class,'userComment'])->name('user.post-comment.index');
+    // Route::delete('user-post/comment/delete/{id}',[\App\Http\Controllers\HomeController::class,'userCommentDelete'])->name('user.post-comment.delete');
+    // Route::get('user-post/comment/edit/{id}',[\App\Http\Controllers\HomeController::class,'userCommentEdit'])->name('user.post-comment.edit');
+    // Route::patch('user-post/comment/udpate/{id}',[\App\Http\Controllers\HomeController::class,'userCommentUpdate'])->name('user.post-comment.update');
+
+    // // Password Change
+    // Route::get('change-password', [\App\Http\Controllers\HomeController::class,'changePassword'])->name('user.change.password.form');
+    // Route::post('change-password', [\App\Http\Controllers\HomeController::class,'changPasswordStore'])->name('change.password');
 
 });
 
-// User section start
-Route::group(['prefix'=>'/user','middleware'=>['auth','user']],function(){
-    Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'index'])->name('user');
-    
-    // Profile
-     Route::get('/profile',[\App\Http\Controllers\HomeController::class,'profile'])->name('user-profile');
-     Route::post('/profile/{id}',[\App\Http\Controllers\HomeController::class,'profileUpdate'])->name('user-profile-update');
-    
-     //  Order
-    Route::get('/order',[\App\Http\Controllers\HomeController::class,'orderIndex'])->name('user.order.index');
-    Route::get('/order/show/{id}',[\App\Http\Controllers\HomeController::class,"orderShow"])->name('user.order.show');
-    Route::delete('/order/delete/{id}',[\App\Http\Controllers\HomeController::class,'userOrderDelete'])->name('user.order.delete');
-    
-    // Product Review
-    Route::get('/user-review',[\App\Http\Controllers\HomeController::class,'productReviewIndex'])->name('user.productreview.index');
-    Route::delete('/user-review/delete/{id}',[\App\Http\Controllers\HomeController::class,'productReviewDelete'])->name('user.productreview.delete');
-    Route::get('/user-review/edit/{id}',[\App\Http\Controllers\HomeController::class,'productReviewEdit'])->name('user.productreview.edit');
-    Route::patch('/user-review/update/{id}',[\App\Http\Controllers\HomeController::class,'productReviewUpdate'])->name('user.productreview.update');
-    
-    // Post comment
-    Route::get('user-post/comment',[\App\Http\Controllers\HomeController::class,'userComment'])->name('user.post-comment.index');
-    Route::delete('user-post/comment/delete/{id}',[\App\Http\Controllers\HomeController::class,'userCommentDelete'])->name('user.post-comment.delete');
-    Route::get('user-post/comment/edit/{id}',[\App\Http\Controllers\HomeController::class,'userCommentEdit'])->name('user.post-comment.edit');
-    Route::patch('user-post/comment/udpate/{id}',[\App\Http\Controllers\HomeController::class,'userCommentUpdate'])->name('user.post-comment.update');
-    
-    // Password Change
-    Route::get('change-password', [\App\Http\Controllers\HomeController::class,'changePassword'])->name('user.change.password.form');
-    Route::post('change-password', [\App\Http\Controllers\HomeController::class,'changPasswordStore'])->name('change.password');
+// high_school
+Route::group(['prefix'=>'/high_school','middleware'=>['auth','role:high_school']],function(){
+    Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'high_school'])->name('high_school.dashboard');
+});
+// coach
+Route::group(['prefix'=>'/coach','middleware'=>['auth','role:coach']],function(){
+    Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'coach'])->name('coach.dashboard');
+
+    //Teams
+    Route::resource('team',TeamController::class);
 
 });
+
+
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

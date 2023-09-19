@@ -5,7 +5,7 @@
  <div class="card shadow mb-4">
      <div class="row">
          <div class="col-md-12">
-            @include('backend.layouts.notification')
+            @include('admin.layouts.notification')
          </div>
      </div>
     <div class="card-header py-3">
@@ -40,7 +40,7 @@
               </tr>
           </tfoot>
           <tbody>
-            @foreach($users as $user)   
+            @foreach($users as $key => $user)
                 <tr>
                     <td>{{$user->id}}</td>
                     <td>{{$user->name}}</td>
@@ -53,7 +53,15 @@
                         @endif
                     </td>
                     <td>{{(($user->created_at)? $user->created_at->diffForHumans() : '')}}</td>
-                    <td>{{$user->role}}</td>
+                    <td>
+                        @if(!empty($user))
+                            <?php $roles = $user->getRoleNames(); ?>
+                            @if(isset($roles[0]))
+                                <label class="badge badge-primary">{{ Str::ucfirst($roles[0])  }}</label>
+                            @endif
+                        @endif
+                    </td>
+
                     <td>
                         @if($user->status=='active')
                             <span class="badge badge-success">{{$user->status}}</span>
@@ -64,7 +72,7 @@
                     <td>
                         <a href="{{route('users.edit',$user->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
                     <form method="POST" action="{{route('users.destroy',[$user->id])}}">
-                      @csrf 
+                      @csrf
                       @method('delete')
                           <button class="btn btn-danger btn-sm dltBtn" data-id={{$user->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
                         </form>
@@ -81,7 +89,7 @@
                             </div>
                             <div class="modal-body">
                               <form method="post" action="{{ route('users.destroy',$user->id) }}">
-                                @csrf 
+                                @csrf
                                 @method('delete')
                                 <button type="submit" class="btn btn-danger" style="margin:auto; text-align:center">Parmanent delete user</button>
                               </form>
@@ -89,7 +97,7 @@
                           </div>
                         </div>
                     </div> --}}
-                </tr>  
+                </tr>
             @endforeach
           </tbody>
         </table>
@@ -119,7 +127,7 @@
   <!-- Page level custom scripts -->
   <script src="{{asset('backend/js/demo/datatables-demo.js')}}"></script>
   <script>
-      
+
       $('#user-dataTable').DataTable( {
             "columnDefs":[
                 {
@@ -132,7 +140,7 @@
         // Sweet alert
 
         function deleteData(id){
-            
+
         }
   </script>
   <script>

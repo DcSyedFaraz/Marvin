@@ -22,7 +22,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 class FrontendController extends Controller
 {
-   
+
     public function index(Request $request)
     {
         return redirect()->route($request->user()->role);
@@ -30,9 +30,9 @@ class FrontendController extends Controller
 
     public function home()
     {
-        
+
         return view('frontend.index');
-    }   
+    }
 
     public function aboutUs()
     {
@@ -43,27 +43,27 @@ class FrontendController extends Controller
     {
         return view('frontend.pages.how-to-use');
     }
-    
+
     public function commerce_policy()
     {
         return view('frontend.pages.commerce-policy');
     }
-    
+
     public function dispute_policy()
     {
         return view('frontend.pages.dispute-policy');
     }
-    
+
     public function fee_schedule()
     {
         return view('frontend.pages.fee-schedule');
     }
-    
+
     public function postage_label_terms()
     {
         return view('frontend.pages.postage-label-terms');
     }
-    
+
     public function faqs()
     {
         return view('frontend.pages.faqs');
@@ -84,12 +84,12 @@ class FrontendController extends Controller
         // dd($product_detail);
         return view('frontend.pages.product_detail',$data);
     }
-    
+
     public function terms()
     {
         return view('frontend.pages.terms');
     }
-    
+
     public function privacy_policy()
     {
         return view('frontend.pages.privacy-policy');
@@ -103,7 +103,7 @@ class FrontendController extends Controller
 
     public function productGrids(){
         $products=Product::query();
-        
+
         if(!empty($_GET['category'])){
             $slug=explode(',',$_GET['category']);
             // dd($slug);
@@ -132,7 +132,7 @@ class FrontendController extends Controller
             // return $price;
             // if(isset($price[0]) && is_numeric($price[0])) $price[0]=floor(Helper::base_amount($price[0]));
             // if(isset($price[1]) && is_numeric($price[1])) $price[1]=ceil(Helper::base_amount($price[1]));
-            
+
             $products->whereBetween('price',$price);
         }
 
@@ -146,12 +146,12 @@ class FrontendController extends Controller
         }
         // Sort by name , price, category
 
-      
+
         return view('frontend.pages.product-grids')->with('products',$products)->with('recent_products',$recent_products);
     }
     // public function productLists(){
     //     $products=Product::query();
-        
+
     //     if(!empty($_GET['category'])){
     //         $slug=explode(',',$_GET['category']);
     //         // dd($slug);
@@ -180,7 +180,7 @@ class FrontendController extends Controller
     //         // return $price;
     //         // if(isset($price[0]) && is_numeric($price[0])) $price[0]=floor(Helper::base_amount($price[0]));
     //         // if(isset($price[1]) && is_numeric($price[1])) $price[1]=ceil(Helper::base_amount($price[1]));
-            
+
     //         $products->whereBetween('price',$price);
     //     }
 
@@ -194,7 +194,7 @@ class FrontendController extends Controller
     //     }
     //     // Sort by name , price, category
 
-      
+
     //     return view('frontend.pages.product-lists')->with('products',$products)->with('recent_products',$recent_products);
     // }
     // public function productFilter(Request $request){
@@ -282,7 +282,7 @@ class FrontendController extends Controller
          }
 
      }
-    
+
 
     public function product_qa_store(Request $request)
     {
@@ -312,7 +312,7 @@ class FrontendController extends Controller
 
     // public function blog(){
     //     $post=Post::query();
-        
+
     //     if(!empty($_GET['category'])){
     //         $slug=explode(',',$_GET['category']);
     //         // dd($slug);
@@ -423,25 +423,25 @@ class FrontendController extends Controller
                 'email' => 'required|string|email|exists:users',
                 'password' => 'required|string',
             ]);
-        
+
             if ($validator->fails()) {
                 return redirect()->back()->with(['error'=>$validator->errors()->first()]);
             }
-        
+
             if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'],'status'=>'active'])
             ){
                 Session::put('user',$data['email']);
                 request()->session()->flash('success','Successfully login');
-                if(Auth::user()->role == 'admin')
+                $role = Auth::user()->getRoleNames();
+                // dd($role);
+
+                if($role)
                 {
-                    return redirect()->route('admin.dashboard')->with('success','Successfully login');
+                    return redirect()->route($role[0].'.dashboard')->with('success','Successfully login');
                 }
-                else
-                {
-                    return redirect()->route('user')->with('success','Successfully login');
-                }
+
             }
-            
+
             else
             {
                 return redirect()->back()->with('error','Invalid email and password pleas try again!');
@@ -483,8 +483,8 @@ class FrontendController extends Controller
             return back();
         }
     }
-    
-    public function vendorregisterSubmit(Request $request){
+
+    public function institute_register(Request $request){
         // return $request->all();
         $this->validate($request,[
             'name'=>'string|required|min:2',
@@ -493,19 +493,20 @@ class FrontendController extends Controller
         ]);
         $data=$request->all();
         // dd($data);
-        User::create([
+        $status= User::create([
             'name'=>$data['name'],
             'email'=>$data['email'],
             'password'=>Hash::make($data['password']),
-            'role'=> 'vendor',
             'status'=>'active'
         ]);
+        $status->assignRole($request->input('roles'));
+
         Session::put('user',$data['email']);
-        
+
             request()->session()->flash('success','Successfully registered');
-            return redirect()->route('home');
-        
-        
+            return redirect()->route('login');
+
+
     }
     public function create(array $data){
         return User::create([
@@ -537,5 +538,5 @@ class FrontendController extends Controller
     //             return back();
     //         }
     // }
-    
+
 }

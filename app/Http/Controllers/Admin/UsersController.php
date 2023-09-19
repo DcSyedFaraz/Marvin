@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 class UsersController extends Controller
 {
     /**
@@ -26,7 +27,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('backend.users.create');
+        $roles = Role::select('id', 'name')->get();
+        return view('admin.users.create', compact('roles'));
     }
 
     /**
@@ -42,7 +44,7 @@ class UsersController extends Controller
             'name'=>'string|required|max:30',
             'email'=>'string|required|unique:users',
             'password'=>'string|required',
-            'role'=>'required|in:admin,user',
+            'role'=>'required',
             'status'=>'required|in:active,inactive',
             'photo'=>'nullable|string',
         ]);
@@ -51,6 +53,7 @@ class UsersController extends Controller
         $data['password']=Hash::make($request->password);
         // dd($data);
         $status=User::create($data);
+        $status->assignRole($request->input('role'));
         // dd($status);
         if($status){
             request()->session()->flash('success','Successfully added user');
@@ -82,7 +85,9 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user=User::findOrFail($id);
-        return view('admin.users.edit')->with('user',$user);
+        $roles = Role::select('id', 'name')->get();
+        // dd($roles);
+        return view('admin.users.edit',compact('roles'))->with('user',$user);
     }
 
     /**
@@ -94,7 +99,6 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user=User::findOrFail($id);
         $this->validate($request,
         [
             'name'=>'string|required|max:30',
@@ -103,10 +107,16 @@ class UsersController extends Controller
             'status'=>'required|in:active,inactive',
             'photo'=>'nullable|string',
         ]);
-        // dd($request->all());
+
         $data=$request->all();
-        // dd($data);
-        
+
+        $user = User::find($id);
+        $user->update($data);
+        DB::table('model_has_roles')->where('model_id', $id)->delete();
+
+        $user->assignRole($request->input('role'));
+
+
         $status=$user->fill($data)->save();
         if($status){
             request()->session()->flash('success','Successfully updated');

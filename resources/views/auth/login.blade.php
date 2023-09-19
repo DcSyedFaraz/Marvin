@@ -17,7 +17,7 @@
         <div class="card o-hidden border-0 shadow-lg my-5">
           <div class="card-body p-0">
             <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
@@ -26,7 +26,8 @@
                   <div class="logmod__container">
                     <ul class="nav nav-tabs" id="myTab">
                         <li data-tabtar="nav-item"><a href="#login" class="nav-link active" data-bs-toggle="tab">Login</a></li>
-                        <li data-tabtar="nav-item"><a href="#register" class="nav-link" data-bs-toggle="tab">Register</a></li>
+                        <li data-tabtar="nav-item"><a href="#sregister" class="nav-link" data-bs-toggle="tab">School Register</a></li>
+                        <li data-tabtar="nav-item"><a href="#cregister" class="nav-link" data-bs-toggle="tab">College Register</a></li>
                     </ul>
                     <div class="tab-content">
                       <div class="tab-pane active" id="login"><br>
@@ -63,14 +64,14 @@
                           @endif
                         </div>
                       </div>
-                      <div  class="tab-pane fade show" id="register"><br>
+                      <div  class="tab-pane fade show" id="sregister"><br>
                         <div class="logmod__heading">
-                          <span class="logmod__heading-subtitle">Register Your Account</strong></span>
+                          <span class="logmod__heading-subtitle">Register Your School</strong></span>
                         </div><br>
                         <div class="logmod__form">
-                          <form method="POST" action="{{ route('vendor_register.submit') }}">
+                          <form method="POST" action="{{ route('institute_register.submit') }}">
                             @csrf
-                            <input type="hidden" name="roles[]" value="User">
+                            <input type="hidden" name="roles" value="high_school">
                             <div class="sminputs">
                               <div class="input full">
                                 <input class="string optional form-control" id="user-email" value="{{old('name') }}" placeholder="Username" type="text" name="name" size="50" />
@@ -86,7 +87,7 @@
                                 <input class="string optional form-control" maxlength="255" id="user-pw" value="{{old('password') }}" placeholder="Password" type="password" name="password" size="50" />
                               </div>
                             </div>
-                            
+
                             <div class="simform__actions">
                               <div class="simform__actions"><button class="btn btn-primary">Sign Up</button></div>
                               <span class="simform__actions-sidetext">
@@ -94,8 +95,41 @@
                               </span>
                             </div>
                           </form>
-                        </div>    
-                      </div> 
+                        </div>
+                      </div>
+                      <div  class="tab-pane fade show" id="cregister"><br>
+                        <div class="logmod__heading">
+                          <span class="logmod__heading-subtitle">Register Your College</strong></span>
+                        </div><br>
+                        <div class="logmod__form">
+                          <form method="POST" action="{{ route('institute_register.submit') }}">
+                            @csrf
+                            <input type="hidden" name="roles" value="college">
+                            <div class="sminputs">
+                              <div class="input full">
+                                <input class="string optional form-control" id="user-email" value="{{old('name') }}" placeholder="Username" type="text" name="name" size="50" />
+                              </div>
+                            </div><br>
+                            <div class="sminputs">
+                              <div class="input full">
+                                <input class="string optional form-control" id="user-email" value="{{old('email') }}" placeholder="Email" type="email" name="email" size="50" />
+                              </div>
+                            </div><br>
+                            <div class="sminputs">
+                              <div class="input full" style="margin-bottom: 20px;">
+                                <input class="string optional form-control" maxlength="255" id="user-pw" value="{{old('password') }}" placeholder="Password" type="password" name="password" size="50" />
+                              </div>
+                            </div>
+
+                            <div class="simform__actions">
+                              <div class="simform__actions"><button class="btn btn-primary">Sign Up</button></div>
+                              <span class="simform__actions-sidetext">
+                                By creating an account you agree to our <a class="special" href="#" target="_blank" role="link">Terms & Privacy</a>
+                              </span>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

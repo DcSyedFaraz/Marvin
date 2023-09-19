@@ -5,7 +5,7 @@
       <i class="fa fa-bars"></i>
     </button>
 
-   
+
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
@@ -51,11 +51,11 @@
         </a>
         <!-- Dropdown - User Information -->
         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="{{route('user-profile')}}">
+          <a class="dropdown-item" href="#">
             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
             Profile
           </a>
-          <a class="dropdown-item" href="{{route('user.change.password.form')}}">
+          <a class="dropdown-item" href="#">
             <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
             Change Password
           </a>

@@ -14,12 +14,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $data['users'] = Auth::user();
-        $data['products'] = Product::where('user_id',Auth::user()->id)->paginate(10);
-        $data['brand'] = Brand::get();
-        $data['categories'] = Category::where('is_parent',1)->get();
-        // return $data['category'] ; 
-        $data['tags'] = PostTag::get();
-        return view('vendor.dashboard',$data);
+        // $data['users'] = Auth::user();
+        // $data['products'] = Product::where('user_id',Auth::user()->id)->paginate(10);
+        // $data['brand'] = Brand::get();
+        // $data['categories'] = Category::where('is_parent',1)->get();
+        // // return $data['category'] ;
+        // $data['tags'] = PostTag::get();
+        return view('college.index');
     }
 }

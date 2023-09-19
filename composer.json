@@ -14,12 +14,15 @@
         "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
+        "laravelcollective/html": "^6.4",
         "league/omnipay": "^3.2",
         "omnipay/stripe": "^3.2",
         "paypal/rest-api-sdk-php": "^1.6",
+        "spatie/laravel-permission": "^5.11",
         "unisharp/laravel-filemanager": "^2.5"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.9",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",

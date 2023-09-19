@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\ProductReview;
 use App\Models\PostComment;
@@ -31,6 +31,12 @@ class HomeController extends Controller
 
     public function index(){
         return view('user.index');
+    }
+    public function high_school(){
+        return view('school.index');
+    }
+    public function coach(){
+        return view('coach.index');
     }
 
     public function profile(){
@@ -220,11 +226,11 @@ class HomeController extends Controller
             'new_password' => ['required'],
             'new_confirm_password' => ['same:new_password'],
         ]);
-   
+
         User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-   
+
         return redirect()->route('user')->with('success','Password successfully changed');
     }
 
-    
+
 }

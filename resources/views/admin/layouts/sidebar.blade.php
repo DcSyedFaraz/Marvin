@@ -17,20 +17,20 @@
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
-    
-    
-    @if(Auth::user()->role == 'admin')
-   
 
-    
+
+    @if(Auth::user()->role == 'admin')
+
+
+
     <hr class="sidebar-divider">
 
-    
+
      <!-- Heading -->
     <div class="sidebar-heading">
         General Settings
     </div>
-    
+
      <!-- Users -->
      <li class="nav-item">
         <a class="nav-link" href="{{route('college.index')}}">
@@ -45,11 +45,26 @@
           <span>Sports</span>
         </a>
     </li>
-    
+
      <li class="nav-item">
         <a class="nav-link" href="{{route('users.index')}}">
             <i class="fas fa-users"></i>
             <span>Users</span></a>
+    </li>
+     <li class="nav-item">
+        <a class="nav-link" href="{{route('roles.index')}}">
+            <i class="fas fa-users"></i>
+            <span>Roles</span></a>
+    </li>
+     <li class="nav-item">
+        <a class="nav-link" href="{{route('permission.index')}}">
+            <i class="fas fa-users"></i>
+            <span>Permissions</span></a>
+    </li>
+     <li class="nav-item">
+        <a class="nav-link" href="{{route('teams.index')}}">
+            <i class="fas fa-users"></i>
+            <span>Teams</span></a>
     </li>
      <!-- General settings -->
      <li class="nav-item">
@@ -57,13 +72,18 @@
             <i class="fas fa-cog"></i>
             <span>Settings</span></a>
     </li>
-     
+     <li class="nav-item">
+        <a class="nav-link" href="{{url('/logout')}}">
+            <i class="fas fa-cog"></i>
+            <span>Logout</span></a>
+    </li>
+
   @endif
 
-    
+
 
     <!-- Divider -->
-    
+
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
