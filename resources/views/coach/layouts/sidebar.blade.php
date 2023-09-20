@@ -27,6 +27,11 @@
             <span>Teams</span></a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{route('profile.index')}}">
+            <i class="fas fa-cog"></i>
+            <span>Profile</span></a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{url('/logout')}}">
             <i class="fas fa-cog"></i>
             <span>Logout</span></a>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\coach\TeamController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Auth\LoginController;
@@ -22,6 +23,8 @@ use App\Http\Controllers\PaypalController;
 |
 */
 
+//Profile
+Route::resource('profile',ProfileController::class);
 
 Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
 Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');

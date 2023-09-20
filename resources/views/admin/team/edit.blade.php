@@ -1,4 +1,4 @@
-@extends('coach.layouts.master')
+@extends('admin.layouts.master')
 
 
 @section('main-content')

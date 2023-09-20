@@ -1,4 +1,4 @@
-@extends('coach.layouts.master')
+@extends('admin.layouts.master')
 
 
 @section('main-content')
@@ -36,7 +36,7 @@
               <!-- /.card-header -->
               <div class="card-header">
 
-                <a class="btn btn-success" href="{{ route('team.create') }}"> Create New Team</a>
+                <a class="btn btn-success" href="{{ route('teams.create') }}"> Create New Team</a>
 
                 <!-- <a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role</a> -->
                 </div>
@@ -45,7 +45,8 @@
                   <thead>
                   <tr>
                     <th>S.No</th>
-                    <th>Roles</th>
+                    <th>Teams</th>
+                    <th>Coach Name</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -58,10 +59,11 @@
                   <tr>
                       <td>{{ $key+1 }}</td>
                       <td>{{ $role->name }}</td>
+                      <td>{{ $role->csname->name }}</td>
                        <td>
-                        <a class="btn btn-primary" href="{{ route('team.edit',$role->id) }}">Edit</a>
+                        <a class="btn btn-primary" href="{{ route('teams.edit',$role->id) }}">Edit</a>
 
-                          <form action="{{ route('team.destroy', $role->id) }}" method="POST"
+                          <form action="{{ route('teams.destroy', $role->id) }}" method="POST"
                             class="d-inline">
                             @csrf
                             @method('DELETE')

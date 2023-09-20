@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class AdminTeamController extends Controller
@@ -14,7 +15,8 @@ class AdminTeamController extends Controller
      */
     public function index()
     {
-        //
+        $team = Team::get();
+        return view('admin.team.index', compact('team'));
     }
 
     /**
@@ -24,7 +26,7 @@ class AdminTeamController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.team.create');
     }
 
     /**

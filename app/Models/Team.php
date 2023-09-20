@@ -9,4 +9,9 @@ class Team extends Model
 {
     use HasFactory;
     protected $guarded=[];
+
+    public function csname()
+    {
+        return $this->belongsTo(User::class,'createdBy', 'id');
+    }
 }

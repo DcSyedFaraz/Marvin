@@ -40,7 +40,6 @@ class TeamController extends Controller
     public function store(Request $request)
     {
         $request['createdBy'] = Auth::user()->id;
-        // dd($request);
         $team = Team::create($request->all());
         return redirect()->route('team.index')->with('success','Team created successfully');
 
