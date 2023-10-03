@@ -43,4 +43,18 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Order');
     }
+
+    public function sports()
+    {
+        return $this->belongsToMany(Sports::class, 'coach_sport');
+    }
+    public function colleges()
+    {
+        return $this->belongsToMany(Colleges::class);
+    }
+    public function userdetail()
+    {
+        return $this->hasOne(UserProfile::class, 'user_id');
+    }
+
 }

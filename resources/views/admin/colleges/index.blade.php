@@ -57,7 +57,7 @@
                     <td>
                       <a href="{{$college->instagream}}" class="btn btn-danger btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="instagram url" data-placement="bottom"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                       <a href="{{$college->twitter}}" class="btn btn-info btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="twitter url" data-placement="bottom"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                      <a href="{{$college->facebook}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="facebook url" data-placement="bottom"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                      <a href="{{($college->facebook)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="facebook url" data-placement="bottom"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                     </td>
                     <td>
                         @if($college->status=='active')
@@ -69,6 +69,7 @@
 
                     <td>
                         <a href="{{route('college.edit',$college->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                        <a href="{{route('adminCoach',$college->id)}}" class="btn btn-info btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="assign coach" data-placement="bottom"><i class="fa fa-thumbs-up"></i></a>
                     <form method="POST" action="{{route('college.destroy',[$college->id])}}">
                       @csrf
                       @method('delete')

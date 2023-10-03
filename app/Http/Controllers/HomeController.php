@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\coach_sport;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
@@ -36,7 +37,8 @@ class HomeController extends Controller
         return view('school.index');
     }
     public function coach(){
-        return view('coach.index');
+        $college = coach_sport::where('user_id', auth()->user()->id)->get();
+        return view('coach.index', compact('college'));
     }
 
     public function profile(){

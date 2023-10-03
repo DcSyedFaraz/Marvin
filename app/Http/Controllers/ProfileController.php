@@ -17,7 +17,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('general-setting.index');
+        $user = User::where('id', auth()->user()->id)->with('userdetail')->first();
+        return view('general-setting.index', compact('user'));
     }
 
     /**
@@ -72,6 +73,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return $request;
         $this->validate($request, [
             'name' => 'required',
             'password' => 'required',
@@ -80,10 +82,51 @@ class ProfileController extends Controller
         $input = $request->all();
 
         $user = User::find($id);
-        $user['password']=Hash::make($request->password);
-        $user->update($input);
-        // $role = Auth::user()->getRoleNames();
-        // Session::flash('success','Record Updated Successfully');
+        $input['password']= Hash::make($request->password);
+        $user->update([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'password' => $input['password'],
+        ]);
+
+        $profileData = [
+            'address' => $request->input('address'),
+            'cell_number' => $request->input('cell_number'),
+            'office_number' => $request->input('office_number'),
+            'call_time' => $request->input('call_time'),
+            'twitter' => $request->input('twitter'),
+            'facebook' => $request->input('facebook'),
+        ];
+
+        // Check if the user already has a profile; if not, create one
+        $user->userdetail()->updateOrCreate(
+            ['user_id' => $user->id],
+            $profileData
+        );
+
+        // Handle file uploads for School Mascot and Coaches' Photo if new files are uploaded
+        if ($request->hasFile('school_mascot')) {
+            $file = $request->file('school_mascot');
+            $filename = $file->getClientOriginalName();
+            $file->storeAs('school_mascots', $filename, 'public');
+
+            $user->userdetail->school_mascot = $filename;
+        }
+
+        if ($request->hasFile('coaches_photo')) {
+            $file = $request->file('coaches_photo');
+            $filename = $file->getClientOriginalName();
+            $file->storeAs('coaches_photos', $filename, 'public');
+
+            $user->userdetail->coaches_photo = $filename;
+        }
+
+        // Save the updated profile data (including picture filenames)
+        $user->userdetail->save();
+
+
+
+
         return redirect()->back()->with('success','Successfully Updated The Profile');
     }
 

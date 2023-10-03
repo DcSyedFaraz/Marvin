@@ -101,7 +101,7 @@ Route::post('/subscribe',[FrontendController::class,'subscribe'])->name('subscri
 
 // Backend section start
 
-Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']],function(){
+Route::group(['prefix'=>'admin','middleware'=>['auth']],function(){
     Route::get('/dashboard',[\App\Http\Controllers\Admin\DashboardController::class,'index'])->name('admin.dashboard');
 
     Route::get('/file-manager',function(){
@@ -112,6 +112,9 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']],function(){
     Route::resource('permission', PermissionController::class);
 
     Route::resource('college',\App\Http\Controllers\Admin\CollegesController::class);
+    Route::get('adminCoach/{id}',[\App\Http\Controllers\Admin\CollegesController::class,'coaches'])->name('adminCoach');
+    Route::post('adminCoachsave',[\App\Http\Controllers\Admin\CollegesController::class,'adminCoachsave'])->name('adminCoachsave');
+
     Route::resource('sport',\App\Http\Controllers\Admin\SportsController::class);
     // user route
     Route::resource('users',UsersController::class);
@@ -193,6 +196,8 @@ Route::group(['prefix'=>'/athelete','middleware'=>['auth','role:athelete']],func
 Route::group(['prefix'=>'/high_school','middleware'=>['auth','role:high_school']],function(){
     Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'high_school'])->name('high_school.dashboard');
 });
+
+
 // coach
 Route::group(['prefix'=>'/coach','middleware'=>['auth','role:coach']],function(){
     Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'coach'])->name('coach.dashboard');
