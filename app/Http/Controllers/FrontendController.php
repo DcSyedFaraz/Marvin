@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Category;
@@ -20,6 +21,7 @@ use DB;
 use Hash;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+
 class FrontendController extends Controller
 {
 
@@ -78,11 +80,11 @@ class FrontendController extends Controller
     {
         $data['product_detail'] = Product::getProductBySlug($slug);
         $data['vendor'] = User::find($data['product_detail']->user_id);
-        $data['qas'] = ProductQA::where('product_id',$data['product_detail']->id)->get();
-        $data['product_review']= ProductReview::where('product_id',$data['product_detail']->id)->get();
-        $data['vendor_review']= VendorReview::with('user')->where('vendor_id',$data['product_detail']->user_id)->get();
+        $data['qas'] = ProductQA::where('product_id', $data['product_detail']->id)->get();
+        $data['product_review'] = ProductReview::where('product_id', $data['product_detail']->id)->get();
+        $data['vendor_review'] = VendorReview::with('user')->where('vendor_id', $data['product_detail']->user_id)->get();
         // dd($product_detail);
-        return view('frontend.pages.product_detail',$data);
+        return view('frontend.pages.product_detail', $data);
     }
 
     public function terms()
@@ -95,59 +97,59 @@ class FrontendController extends Controller
         return view('frontend.pages.privacy-policy');
     }
 
-    public function product_review_fetch($offset,$id)
-	{
-		$products = ProductReview::with('user_info')->where('product_id',$id)->skip($offset)->take(1)->get();
-		return response()->json($products);
-	}
+    public function product_review_fetch($offset, $id)
+    {
+        $products = ProductReview::with('user_info')->where('product_id', $id)->skip($offset)->take(1)->get();
+        return response()->json($products);
+    }
 
-    public function productGrids(){
-        $products=Product::query();
+    public function productGrids()
+    {
+        $products = Product::query();
 
-        if(!empty($_GET['category'])){
-            $slug=explode(',',$_GET['category']);
+        if (!empty($_GET['category'])) {
+            $slug = explode(',', $_GET['category']);
             // dd($slug);
-            $cat_ids=Category::select('id')->whereIn('slug',$slug)->pluck('id')->toArray();
+            $cat_ids = Category::select('id')->whereIn('slug', $slug)->pluck('id')->toArray();
             // dd($cat_ids);
-            $products->whereIn('cat_id',$cat_ids);
+            $products->whereIn('cat_id', $cat_ids);
             // return $products;
         }
-        if(!empty($_GET['brand'])){
-            $slugs=explode(',',$_GET['brand']);
-            $brand_ids=Brand::select('id')->whereIn('slug',$slugs)->pluck('id')->toArray();
+        if (!empty($_GET['brand'])) {
+            $slugs = explode(',', $_GET['brand']);
+            $brand_ids = Brand::select('id')->whereIn('slug', $slugs)->pluck('id')->toArray();
             return $brand_ids;
-            $products->whereIn('brand_id',$brand_ids);
+            $products->whereIn('brand_id', $brand_ids);
         }
-        if(!empty($_GET['sortBy'])){
-            if($_GET['sortBy']=='title'){
-                $products=$products->where('status','active')->orderBy('title','ASC');
+        if (!empty($_GET['sortBy'])) {
+            if ($_GET['sortBy'] == 'title') {
+                $products = $products->where('status', 'active')->orderBy('title', 'ASC');
             }
-            if($_GET['sortBy']=='price'){
-                $products=$products->orderBy('price','ASC');
+            if ($_GET['sortBy'] == 'price') {
+                $products = $products->orderBy('price', 'ASC');
             }
         }
 
-        if(!empty($_GET['price'])){
-            $price=explode('-',$_GET['price']);
+        if (!empty($_GET['price'])) {
+            $price = explode('-', $_GET['price']);
             // return $price;
             // if(isset($price[0]) && is_numeric($price[0])) $price[0]=floor(Helper::base_amount($price[0]));
             // if(isset($price[1]) && is_numeric($price[1])) $price[1]=ceil(Helper::base_amount($price[1]));
 
-            $products->whereBetween('price',$price);
+            $products->whereBetween('price', $price);
         }
 
-        $recent_products=Product::where('status','active')->orderBy('id','DESC')->limit(3)->get();
+        $recent_products = Product::where('status', 'active')->orderBy('id', 'DESC')->limit(3)->get();
         // Sort by number
-        if(!empty($_GET['show'])){
-            $products=$products->where('status','active')->paginate($_GET['show']);
-        }
-        else{
-            $products=$products->where('status','active')->paginate(9);
+        if (!empty($_GET['show'])) {
+            $products = $products->where('status', 'active')->paginate($_GET['show']);
+        } else {
+            $products = $products->where('status', 'active')->paginate(9);
         }
         // Sort by name , price, category
 
 
-        return view('frontend.pages.product-grids')->with('products',$products)->with('recent_products',$recent_products);
+        return view('frontend.pages.product-grids')->with('products', $products)->with('recent_products', $recent_products);
     }
     // public function productLists(){
     //     $products=Product::query();
@@ -246,16 +248,17 @@ class FrontendController extends Controller
     //             return redirect()->route('product-lists',$catURL.$brandURL.$priceRangeURL.$showURL.$sortByURL);
     //         }
     // }
-    public function productSearch(Request $request){
-		//return $request->search;
-        $recent_products=Product::where('status','active')->orderBy('id','DESC')->limit(3)->get();
-        $products=Product::orwhere('title','like','%'.$request->search.'%')
-                    ->orwhere('slug','like','%'.$request->search.'%')
-                    ->orwhere('description','like','%'.$request->search.'%')
-                    ->orwhere('price','like','%'.$request->search.'%')
-                    ->orderBy('id','DESC')
-                    ->get();
-        return view('frontend.pages.product-grids')->with('products',$products)->with('recent_products',$recent_products);
+    public function productSearch(Request $request)
+    {
+        //return $request->search;
+        $recent_products = Product::where('status', 'active')->orderBy('id', 'DESC')->limit(3)->get();
+        $products = Product::orwhere('title', 'like', '%' . $request->search . '%')
+            ->orwhere('slug', 'like', '%' . $request->search . '%')
+            ->orwhere('description', 'like', '%' . $request->search . '%')
+            ->orwhere('price', 'like', '%' . $request->search . '%')
+            ->orderBy('id', 'DESC')
+            ->get();
+        return view('frontend.pages.product-grids')->with('products', $products)->with('recent_products', $recent_products);
     }
 
     // public function productBrand(Request $request){
@@ -269,43 +272,42 @@ class FrontendController extends Controller
     //     }
 
     // }
-     public function productCat(Request $request){
-         $products=Category::getProductByCat($request->slug);
-         // return $request->slug;
-         $recent_products=Product::where('status','active')->orderBy('id','DESC')->limit(3)->get();
+    public function productCat(Request $request)
+    {
+        $products = Category::getProductByCat($request->slug);
+        // return $request->slug;
+        $recent_products = Product::where('status', 'active')->orderBy('id', 'DESC')->limit(3)->get();
 
-         if(request()->is('e-shop.loc/product-grids')){
-             return view('frontend.pages.product-grids')->with('products',$products->products)->with('recent_products',$recent_products);
-         }
-         else{
-             return view('frontend.pages.product-grids')->with('products',$products->products)->with('recent_products',$recent_products);
-         }
+        if (request()->is('e-shop.loc/product-grids')) {
+            return view('frontend.pages.product-grids')->with('products', $products->products)->with('recent_products', $recent_products);
+        } else {
+            return view('frontend.pages.product-grids')->with('products', $products->products)->with('recent_products', $recent_products);
+        }
 
-     }
+    }
 
 
     public function product_qa_store(Request $request)
     {
-            ProductQA::create([
-                'user_id' => Auth::user()->id,
-                'product_id' => $request->product_id,
-                'question' => $request->question,
-            ]);
+        ProductQA::create([
+            'user_id' => Auth::user()->id,
+            'product_id' => $request->product_id,
+            'question' => $request->question,
+        ]);
 
-            return redirect()->back()->with('success','Question Submited');
+        return redirect()->back()->with('success', 'Question Submited');
     }
 
-    public function productSubCat(Request $request,$slug)
+    public function productSubCat(Request $request, $slug)
     {
-        $products=Category::getProductBySubCat($slug);
-        $recent_products=Product::where('status','active')->orderBy('id','DESC')->limit(3)->get();
+        $products = Category::getProductBySubCat($slug);
+        $recent_products = Product::where('status', 'active')->orderBy('id', 'DESC')->limit(3)->get();
         //  return $products;
 
-        if(request()->is('e-shop.loc/product-grids')){
-            return view('frontend.pages.product-grids')->with('products',$products->sub_products)->with('recent_products',$recent_products);
-        }
-        else{
-            return view('frontend.pages.product-lists')->with('products',$products->sub_products)->with('recent_products',$recent_products);
+        if (request()->is('e-shop.loc/product-grids')) {
+            return view('frontend.pages.product-grids')->with('products', $products->sub_products)->with('recent_products', $recent_products);
+        } else {
+            return view('frontend.pages.product-lists')->with('products', $products->sub_products)->with('recent_products', $recent_products);
         }
 
     }
@@ -409,7 +411,27 @@ class FrontendController extends Controller
     // Login
     public function login()
     {
-        $this->middleware('auth')->except('logout');
+        if (auth()->check()) {
+            // User is already authenticated, determine their role and redirect accordingly
+            if (auth()->user()->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
+            } elseif (auth()->user()->hasRole('college')) {
+                return redirect()->route('college.dashboard');
+            }
+            elseif (auth()->user()->hasRole('coach')) {
+                return redirect()->route('coach.dashboard');
+            }
+            elseif (auth()->user()->hasRole('athelete')) {
+                return redirect()->route('athelete.dashboard');
+            }
+            elseif (auth()->user()->hasRole('high_school')) {
+                return redirect()->route('high_school.dashboard');
+            }
+             else {
+                // Handle other roles or a default dashboard route
+                dd('s');
+            }
+        }
         return view('auth.login');
     }
 
@@ -417,35 +439,32 @@ class FrontendController extends Controller
     {
         // return 'asd';
         //try{
-            $data= $request->all();
-            $validator = \Validator::make($data, [
-                // 'name' => 'required|string',
-                'email' => 'required|string|email|exists:users',
-                'password' => 'required|string',
-            ]);
+        $data = $request->all();
+        $validator = \Validator::make($data, [
+            // 'name' => 'required|string',
+            'email' => 'required|string|email|exists:users',
+            'password' => 'required|string',
+        ]);
 
-            if ($validator->fails()) {
-                return redirect()->back()->with(['error'=>$validator->errors()->first()]);
+        if ($validator->fails()) {
+            return redirect()->back()->with(['error' => $validator->errors()->first()]);
+        }
+
+        if (
+            Auth::attempt(['email' => $data['email'], 'password' => $data['password'], 'status' => 'active'])
+        ) {
+            Session::put('user', $data['email']);
+            request()->session()->flash('success', 'Successfully login');
+            $role = Auth::user()->getRoleNames();
+            // dd($role);
+
+            if ($role) {
+                return redirect()->route($role[0] . '.dashboard')->with('success', 'Successfully login');
             }
 
-            if(Auth::attempt(['email' => $data['email'], 'password' => $data['password'],'status'=>'active'])
-            ){
-                Session::put('user',$data['email']);
-                request()->session()->flash('success','Successfully login');
-                $role = Auth::user()->getRoleNames();
-                // dd($role);
-
-                if($role)
-                {
-                    return redirect()->route($role[0].'.dashboard')->with('success','Successfully login');
-                }
-
-            }
-
-            else
-            {
-                return redirect()->back()->with('error','Invalid email and password pleas try again!');
-            }
+        } else {
+            return redirect()->back()->with('error', 'Invalid email and password pleas try again!');
+        }
         // }
         // catch(\Exception $e)
         // {
@@ -453,71 +472,76 @@ class FrontendController extends Controller
         // }
     }
 
-    public function logout(){
+    public function logout()
+    {
         Session::forget('user');
         Auth::logout();
-        request()->session()->flash('success','Logout successfully');
-        return redirect()->back()->with('success','Logout successfully');
+        request()->session()->flash('success', 'Logout successfully');
+        return redirect()->back()->with('success', 'Logout successfully');
     }
 
-    public function register(){
+    public function register()
+    {
         return view('frontend.pages.register');
     }
-    public function registerSubmit(Request $request){
+    public function registerSubmit(Request $request)
+    {
         // return $request->all();
-        $this->validate($request,[
-            'name'=>'string|required|min:2',
-            'email'=>'string|required|unique:users,email',
-            'password'=>'required|min:6',
+        $this->validate($request, [
+            'name' => 'string|required|min:2',
+            'email' => 'string|required|unique:users,email',
+            'password' => 'required|min:6',
         ]);
-        $data=$request->all();
+        $data = $request->all();
         // dd($data);
-        $check=$this->create($data);
-        Session::put('user',$data['email']);
-        if($check){
-            request()->session()->flash('success','Successfully registered');
+        $check = $this->create($data);
+        Session::put('user', $data['email']);
+        if ($check) {
+            request()->session()->flash('success', 'Successfully registered');
             return redirect()->route('home');
-        }
-        else{
-            request()->session()->flash('error','Please try again!');
+        } else {
+            request()->session()->flash('error', 'Please try again!');
             return back();
         }
     }
 
-    public function institute_register(Request $request){
+    public function institute_register(Request $request)
+    {
         // return $request->all();
-        $this->validate($request,[
-            'name'=>'string|required|min:2',
-            'email'=>'string|required|unique:users,email',
-            'password'=>'required|min:6',
+        $this->validate($request, [
+            'name' => 'string|required|min:2',
+            'email' => 'string|required|unique:users,email',
+            'password' => 'required|min:6',
         ]);
-        $data=$request->all();
+        $data = $request->all();
         // dd($data);
-        $status= User::create([
-            'name'=>$data['name'],
-            'email'=>$data['email'],
-            'password'=>Hash::make($data['password']),
-            'status'=>'active'
+        $status = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'status' => 'active'
         ]);
         $status->assignRole($request->input('roles'));
 
-        Session::put('user',$data['email']);
+        Session::put('user', $data['email']);
 
-            request()->session()->flash('success','Successfully registered');
-            return redirect()->route('login');
+        request()->session()->flash('success', 'Successfully registered');
+        return redirect()->route('login');
 
 
     }
-    public function create(array $data){
+    public function create(array $data)
+    {
         return User::create([
-            'name'=>$data['name'],
-            'email'=>$data['email'],
-            'password'=>Hash::make($data['password']),
-            'status'=>'active'
-            ]);
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'status' => 'active'
+        ]);
     }
     // Reset password
-    public function showResetForm(){
+    public function showResetForm()
+    {
         return view('auth.passwords.old-reset');
     }
 

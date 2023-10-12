@@ -4,13 +4,16 @@ use App\Http\Controllers\Admin\AdminTeamController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\athelte\AtheleteController;
+use App\Http\Controllers\coach\PLayerController;
+use App\Http\Controllers\coach\PlayerInTeamController;
 use App\Http\Controllers\coach\TeamController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\PaypalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,9 +57,6 @@ Route::post('vendor/login',[LoginController::class,'vendor_login_submit'])->name
 Route::post('vendor/register',[FrontendController::class,'institute_register'])->name('institute_register.submit');
 // Reset password
 Route::post('password-reset', [FrontendController::class,'showResetForm'])->name('password.reset');
-// Socialite
-Route::get('login/{provider}/', [\App\Http\Controllers\Auth\LoginController::class,'redirect'])->name('login.redirect');
-Route::get('login/{provider}/callback/', [\App\Http\Controllers\Auth\LoginController::class,'Callback'])->name('login.callback');
 
 Route::get('/',[FrontendController::class,'home'])->name('home');
 
@@ -146,24 +146,18 @@ Route::group(['prefix'=>'admin','middleware'=>['auth']],function(){
 // college
 Route::group(['prefix'=>'/college','middleware'=>['auth','role:college']],function(){
     Route::get('/dashboard',[\App\Http\Controllers\Vendor\DashboardController::class,'index'])->name('college.dashboard');
-    // Product
-    // Route::resource('/vproduct',\App\Http\Controllers\Vendor\ProductController::class);
-    // Route::get('/vproductqa',[\App\Http\Controllers\Vendor\ProductQAController::class,'index'])->name('vproductqa.index');
-    // Route::get('/vproductqa/edit/{id}',[\App\Http\Controllers\Vendor\ProductQAController::class,'edit'])->name('vproductqa.edit');
-    // Route::put('/vproductqa/update/{id}',[\App\Http\Controllers\Vendor\ProductQAController::class,'update'])->name('vproductqa.update');
-    // // Order
-    // Route::resource('/order',\App\Http\Controllers\Vendor\OrderController::class);
-    // Route::get('order/pdf/{id}',[\App\Http\Controllers\Vendor\OrderController::class,'pdf'])->name('vorder.pdf');
-
-    // // Profile
-    // Route::get('/profile',[\App\Http\Controllers\Vendor\VendorController::class,'profile'])->name('vendor.profile');
-    // Route::post('/profile/{id}',[\App\Http\Controllers\Vendor\VendorController::class,'profileUpdate'])->name('vendor-profile-update');
 
 });
 
 // athelete section start
 Route::group(['prefix'=>'/athelete','middleware'=>['auth','role:athelete']],function(){
     Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'index'])->name('athelete.dashboard');
+
+    Route::get('/accept/{id}', [AtheleteController::class, 'acceptteam'])->name('athelte.accept');
+    Route::get('/decline/{id}', [AtheleteController::class, 'declineteam'])->name('athelte.decline');
+    Route::get('/teams', [AtheleteController::class, 'team'])->name('team');
+
+    Route::resource('athlete',AtheleteController::class);
 
     // Profile
     //  Route::get('/profile',[\App\Http\Controllers\HomeController::class,'profile'])->name('user-profile');
@@ -200,10 +194,15 @@ Route::group(['prefix'=>'/high_school','middleware'=>['auth','role:high_school']
 
 // coach
 Route::group(['prefix'=>'/coach','middleware'=>['auth','role:coach']],function(){
-    Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'coach'])->name('coach.dashboard');
+    Route::get('/dashboard',[HomeController::class,'coach'])->name('coach.dashboard');
+    Route::get('/resend/{id}', [PlayerInTeamController::class, 'resend'])->name('invite.resend');
 
     //Teams
     Route::resource('team',TeamController::class);
+    Route::resource('player',PlayerInTeamController::class);
+    Route::get('/teams/{id}',[TeamController::class,'team'])->name('coach.team');
+    //Player
+    Route::resource('manage-players',PLayerController::class);
 
 });
 

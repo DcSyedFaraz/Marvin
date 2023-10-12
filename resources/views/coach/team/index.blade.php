@@ -2,97 +2,84 @@
 
 
 @section('main-content')
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Teams</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Teams</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-     @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Team List</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-header">
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
 
-                <a class="btn btn-success" href="{{ route('team.create') }}"> Create New Team</a>
 
-                <!-- <a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role</a> -->
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">Create Team</div>
+
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('team.store') }}">
+                                @csrf
+
+                                <div class="form-group">
+                                    <label for="name">Team Name:</label>
+                                    <input type="text" class="form-control" placeholder="Team Name" id="name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <strong>Description:</strong>
+                                    <input name="description" placeholder="Description" class="form-control" required >
+                                </div>
+                                <!-- Automatically assign the sport based on coach's sport -->
+                                <input type="hidden" name="sports_id" value="{{ $coach->sports_id }}">
+
+                                <!-- Coach field is hidden but assigned based on logged-in coach -->
+                                <input type="hidden" name="colleges_id" value="{{ $coach->colleges_id }}">
+
+                                <button type="submit" class="btn btn-primary">Create Team</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th>S.No</th>
-                    <th>Roles</th>
-                    <th>Action</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  @if($team)
-                  @php
-                  $id =1;
-                  @endphp
-                  @foreach($team as $key =>  $role)
-                  <tr>
-                      <td>{{ $key+1 }}</td>
-                      <td>{{ $role->name }}</td>
-                       <td>
-                        <a class="btn btn-primary" href="{{ route('team.edit',$role->id) }}">Edit</a>
-
-                          <form action="{{ route('team.destroy', $role->id) }}" method="POST"
-                            class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger"
-                                onclick="return confirm('Are you sure you want to delete this Team?')">Delete</button>
-                        </form>
-                      </td>
-			      </tr>
-                  @endforeach
-                  @endif
-                  </tbody>
-                  {{-- <tfoot>
-                  <tr>
-                    <th>S.No</th>
-                    <th>Roles</th>
-                    <th>Action</th>
-                  </tr>
-                  </tfoot> --}}
-                </table>
-              </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
 
+            <!-- Display Teams -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h2>Teams</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Team Name</th>
+                                <th>College</th>
+                                <th>Sport</th>
+                                <th>Players</th>
+                                <th>Created By</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($teams as $team)
+                                <tr>
+                                    <td>{{ $team->name }}</td>
+                                    {{-- @dd($team->sports) --}}
+                                    <td>{{ $team->colleges->title }}</td>
+                                    <td>{{ $team->sports->title }}</td>
+                                    <td>{{ $team->player->count() }}</td>
+                                    <td>{{ $team->csname->name }}</td>
+                                    <td class="d-flex">
+                                        <a href="{{ route('team.edit', $team->id) }}" class="btn btn-primary btn-sm">Manage Team</a>
+                                        <form action="{{ route('team.destroy', $team->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="mx-2 btn btn-danger btn-sm"
+                                                onclick="return confirm('Are you sure you want to Delete this?')">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- /.content -->
+    </div>
 @endsection

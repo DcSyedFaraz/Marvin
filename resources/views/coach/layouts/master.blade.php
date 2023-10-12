@@ -23,6 +23,7 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
+        @include('coach.layouts.notification')
         @yield('main-content')
         <!-- /.container-fluid -->
 

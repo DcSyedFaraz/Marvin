@@ -14,4 +14,16 @@ class Team extends Model
     {
         return $this->belongsTo(User::class,'createdBy', 'id');
     }
+    public function sports()
+    {
+        return $this->belongsTo(Sports::class);
+    }
+    public function colleges()
+    {
+        return $this->belongsTo(Colleges::class);
+    }
+    public function player()
+    {
+        return $this->hasMany(Player::class);
+    }
 }

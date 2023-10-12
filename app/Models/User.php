@@ -38,6 +38,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function scopeWithRole($query, $roleName)
+    {
+        return $query->whereHas('roles', function ($query) use ($roleName) {
+            $query->where('name', $roleName);
+        });
+    }
 
     public function orders()
     {
@@ -55,6 +61,9 @@ class User extends Authenticatable
     public function userdetail()
     {
         return $this->hasOne(UserProfile::class, 'user_id');
+    }
+    public function profile() {
+        return $this->hasOne(PlayerProfile::class);
     }
 
 }

@@ -12,10 +12,15 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item {{ request()->routeIs('athelete.dashboard') ? 'active' : '' }}">
       <a class="nav-link" href="{{route('athelete.dashboard')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
+    </li>
+    <li class="nav-item {{ request()->routeIs('team') ? 'active' : '' }}">
+        <a class="nav-link active" href="{{route('team')}}">
+            <i class="fas fa-cog"></i>
+            <span>Teams</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url('/logout')}}">

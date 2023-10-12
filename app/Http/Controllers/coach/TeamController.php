@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\coach;
 
 use App\Http\Controllers\Controller;
+use App\Models\coach_sport;
+use App\Models\Player;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,11 +17,13 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function team($id)
     {
-        $team = Team::orderBy('id','DESC')->get();
-        // dd($roles);
-        return view('coach.team.index',compact('team'));
+        // dd('a');
+        $coach = coach_sport::find($id);
+        $teams = Team::where('colleges_id',$coach->colleges_id)->where('sports_id',$coach->sports_id)->get();
+        // dd($team);
+        return view('coach.team.index',compact('teams','coach'));
     }
 
     /**
@@ -39,9 +44,10 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $request['createdBy'] = Auth::user()->id;
         $team = Team::create($request->all());
-        return redirect()->route('team.index')->with('success','Team created successfully');
+        return redirect()->back()->with('success','Team created successfully');
 
     }
 
@@ -64,8 +70,11 @@ class TeamController extends Controller
      */
     public function edit($id)
     {
+        $players = Player::with('users')->where('team_id',$id)->get();
         $team = Team::find($id);
-        return view('coach.team.edit', compact('team'));
+        $playersToAdd = User::withRole('athelete')->get();
+        // dd($players);
+        return view('coach.team.edit', compact('team','players','playersToAdd'));
     }
 
     /**
@@ -79,7 +88,7 @@ class TeamController extends Controller
     {
         $team = Team::findOrFail($id);
         $team->update($request->all());
-        return redirect()->route('team.index')->with('success','Team Updated Successfully');
+        return redirect()->back()->with('success','Team Updated Successfully');
     }
 
     /**
@@ -92,6 +101,6 @@ class TeamController extends Controller
     {
         $delete=Team::findorFail($id);
         $status=$delete->delete();
-        return redirect()->route('team.index')->with('success','Team Deleted successfully');
+        return redirect()->back()->with('success','Team Deleted successfully');
     }
 }

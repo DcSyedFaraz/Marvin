@@ -2,7 +2,7 @@
 
 @section('main-content')
     <div class="container-fluid">
-        @include('coach.layouts.notification')
+        
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -69,6 +69,9 @@
 
                                         {{ $collegess->colleges->status }}
                                     </span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('coach.team',$collegess->id) }}" class="btn btn-primary btn-sm">Manage Team</a>
                                 </td>
 
                             </tr>

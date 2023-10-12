@@ -104,7 +104,6 @@ class ProfileController extends Controller
             $profileData
         );
 
-        // Handle file uploads for School Mascot and Coaches' Photo if new files are uploaded
         if ($request->hasFile('school_mascot')) {
             $file = $request->file('school_mascot');
             $filename = $file->getClientOriginalName();
@@ -121,7 +120,6 @@ class ProfileController extends Controller
             $user->userdetail->coaches_photo = $filename;
         }
 
-        // Save the updated profile data (including picture filenames)
         $user->userdetail->save();
 
 
