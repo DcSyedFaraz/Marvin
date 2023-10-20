@@ -20,4 +20,8 @@ class coach_sport extends Model
 {
     return $this->belongsTo(Sports::class, 'sports_id');
 }
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
 }

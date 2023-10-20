@@ -64,7 +64,7 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">New Inspection Sheet
+                                                        <h5 class="modal-title" id="exampleModalLabel">Add Player
                                                         </h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">
@@ -115,8 +115,8 @@
                                                 @foreach ($players as $player)
                                                     <tr>
                                                         {{-- @dd($player->users) --}}
-                                                        <td><a
-                                                                href="{{ route('manage-players.edit', $player->users->id) }}">{{ $player->users->name }}</a>
+                                                        <td>{{ $player->users->name }}
+                                                            {{-- <a href="{{ route('manage-players.edit', $player->users->id) }}">{{ $player->users->name }}</a> --}}
                                                         </td>
                                                         <td> @switch($player->status)
                                                                 @case('pending')
@@ -148,8 +148,9 @@
                                                                 @method('DELETE')
                                                                 <input type="hidden" name="player_id"
                                                                     value="{{ $player->id }}">
-                                                                <button type="submit" class="btn btn-danger"
-                                                                    onclick="return confirm('Are you sure you want to Remove this?')">Remove</button>
+                                                                <button type="submit" class="btn btn-danger" title="Remove athlete"
+                                                                    onclick="return confirm('Are you sure you want to Remove this?')"><i
+                                                                    class="fas fa-trash"></i></button>
                                                             </form>
                                                         </td>
                                                     </tr>

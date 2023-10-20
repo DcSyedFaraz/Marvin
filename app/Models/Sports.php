@@ -18,5 +18,13 @@ public function coaches()
 {
     return $this->belongsToMany(User::class, 'coach_sport', 'sports_id', 'user_id');
 }
+public function fields()
+{
+    return $this->hasMany(Field::class);
+}
+public function stats()
+{
+    return $this->hasMany(Stats::class);
+}
 
 }

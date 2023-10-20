@@ -3,7 +3,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; <a href="https://github.com/Prajwal100" target="_blank">Prajwal R.</a> {{date('Y')}}</span>
+            <span>Copyright &copy; <a href="#" target="_blank">Marvin</a> {{date('Y')}}</span>
           </div>
         </div>
       </footer>
@@ -51,6 +51,7 @@
 
   <!-- Page level plugins -->
   <script src="{{asset('backend/vendor/chart.js/Chart.min.js')}}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
   <!-- Page level custom scripts -->
   {{-- <script src="{{asset('backend/js/demo/chart-area-demo.js')}}"></script> --}}

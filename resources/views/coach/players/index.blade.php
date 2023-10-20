@@ -2,10 +2,9 @@
 
 @section('main-content')
 <div class="container-fluid">
-    @include('coach.layouts.notification')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <h1 class="h3 mb-0 text-gray-800">Atheletes</h1>
     </div>
 
     <!-- Content Row -->
@@ -36,16 +35,20 @@
                     <tr>
                         <td>{{ $key + 1 }}</td>
                         <td>{{ $player->name ?? '' }}</td>
-                        <td>{{ $player->assigned_sport ?? '' }}</td>
+                        {{-- @dd($player->sports_name) --}}
+                        <td>{{ $player->sport_name->title ?? '' }}</td>
                         <td>{{ $player->status ?? '' }}</td>
                         <td class="d-flex">
-                            <a href="{{ route('manage-players.edit', $player->id) }}" class="btn btn-primary btn-sm">Manage Player</a>
-                            <form action="{{ route('manage-players.destroy', $player->id) }}" method="POST">
+                            @if ($results->contains('user_id', $player->id))
+                            <a href="{{ route('index.team', $player->id) }}" class="btn btn-primary btn-sm">Manage Player</a>
+                            {{-- <form action="{{ route('manage-players.destroy', $player->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="mx-2 btn btn-danger btn-sm"
                                     onclick="return confirm('Are you sure you want to Delete this?')">Delete</button>
-                            </form>
+                            </form> --}}
+                            @endif
+                            <a href="{{ route('manage-players.show', $player->id) }}" title="show profile" class="mx-2 btn btn-success btn-sm"><i class="fas fa-user-circle"></i></a>
                         </td>
                     </tr>
                     @endforeach

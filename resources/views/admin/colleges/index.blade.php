@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends(Auth::user()->hasRole('admin') ? 'admin.layouts.master' : 'coach.layouts.master')
 
 @section('main-content')
  <!-- DataTales Example -->
@@ -11,7 +11,10 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div class="card-header py-3">
       <h6 class="m-0 font-weight-bold text-primary float-left">Colleges List</h6>
+      @if (auth()->user()->hasRole('admin'))
+
       <a href="{{route('college.create')}}" class="btn btn-primary btn-sm float-right" data-toggle="tooltip" data-placement="bottom" title="Add User"><i class="fas fa-plus"></i> Add College</a>
+      @endif
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -25,7 +28,10 @@
               <th>Photo</th>
               <th>Social Links</th>
               <th>Status</th>
+              @if (auth()->user()->hasRole('admin'))
+
               <th>Action</th>
+              @endif
             </tr>
           </thead>
           <tfoot>
@@ -37,7 +43,10 @@
                 <th>Photo</th>
                 <th>Social Links</th>
                 <th>Status</th>
+                @if (auth()->user()->hasRole('admin'))
+
                 <th>Action</th>
+                @endif
               </tr>
           </tfoot>
           <tbody>
@@ -66,16 +75,19 @@
                             <span class="badge badge-warning">{{$college->status}}</span>
                         @endif
                     </td>
+                    @if (auth()->user()->hasRole('admin'))
 
-                    <td>
+                    <td class="d-flex">
                         <a href="{{route('college.edit',$college->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
-                        <a href="{{route('adminCoach',$college->id)}}" class="btn btn-info btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="assign coach" data-placement="bottom"><i class="fa fa-thumbs-up"></i></a>
+                        <a href="{{route('adminCoach',$college->id)}}" class="btn btn-info btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="assign coach" data-placement="bottom"><i class="fas fa-check"></i>
+                        </a>
                     <form method="POST" action="{{route('college.destroy',[$college->id])}}">
                       @csrf
                       @method('delete')
                           <button class="btn btn-danger btn-sm dltBtn" data-id="{{$college->id}}" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete" onclick="return confirm('Are you sure you want to delete this college?')"><i class="fas fa-trash-alt"></i></button>
                         </form>
                     </td>
+                    @endif
                 </tr>
             @endforeach
           </tbody>

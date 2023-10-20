@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\coach;
 
 use App\Http\Controllers\Controller;
+use App\Models\FieldsValue;
 use App\Models\Player;
 use App\Models\PlayerProfile;
+use App\Models\Sports;
+use App\Models\StatsValue;
 use App\Models\User;
+use App\Rules\NonEmptyArray;
 use Arr;
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class PLayerController extends Controller
@@ -20,8 +26,31 @@ class PLayerController extends Controller
     public function index()
     {
         $players = User::withRole('athelete')->get();
+        $authenticatedUserId = Auth::id();
 
-        return view('coach.players.index', ['players' => $players]);
+        $collegesIds = DB::table('coach_sport')
+            ->where('user_id', $authenticatedUserId)
+            ->pluck('colleges_id')
+            ->toArray();
+
+        $sportsIds = DB::table('coach_sport')
+            ->where('user_id', $authenticatedUserId)
+            ->pluck('sports_id')
+            ->toArray();
+
+        $results = Player::select('players.*')
+            ->whereHas('team', function ($query) use ($collegesIds, $sportsIds) {
+                $query->whereIn('colleges_id', $collegesIds)
+                    ->whereIn('sports_id', $sportsIds);
+            })
+            ->where('status', 'accepted')
+            ->get();
+
+
+        // dd($results);
+
+
+        return view('coach.players.index', compact('players','results'));
     }
 
     /**
@@ -92,7 +121,14 @@ class PLayerController extends Controller
      */
     public function show($id)
     {
-        //
+        $player = User::where('id', $id)->with('profile','fields')->first();
+        // dd($player);
+
+        if (!$player) {
+            return redirect()->route('manage-players.index')->with('error', 'Player not found.');
+        }
+        // dd($player);
+        return view('coach.players.profile', ['player' => $player]);
     }
 
     /**
@@ -104,12 +140,13 @@ class PLayerController extends Controller
     public function edit($id)
     {
         $player = User::where('id', $id)->with('profile')->first();
+        $sport = Sports::all();
 
         if (!$player) {
             return redirect()->route('manage-players.index')->with('error', 'Player not found.');
         }
         // dd($player);
-        return view('coach.players.manage', ['player' => $player]);
+        return view('coach.players.manage', ['player' => $player,'sport' => $sport]);
     }
 
     /**
@@ -120,54 +157,97 @@ class PLayerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'name' => 'required',
-        'email' => 'required|email|unique:users,email,' . $id,
-        'password' => 'nullable|confirmed',
-        'profile_picture' => 'image|mimes:jpeg,png,gif|max:2048',
-    ]);
+    public function update(Request $request, $id)
+    {
+        // return $request;
 
-    try {
-        // Find the player by ID or return with an error message
-        $player = User::findOrFail($id);
-
-        $player->name = $request->input('name');
-        $player->email = $request->input('email');
-
-        if ($request->filled('password')) {
-            $player->password = Hash::make($request->input('password'));
-        }
-
-        $player->save();
-
-        // Update player profile if it exists
-        $playerProfile = PlayerProfile::where('user_id', $id)->first();
-
-        if ($playerProfile) {
-            $playerProfile->update([
-                'introduction' => $request->input('introduction'),
-                'forty_times' => $request->input('forty_times'),
-                'vertical_jump' => $request->input('vertical_jump'),
-                'video_embed' => $request->input('video_embed'),
-                'gpa' => $request->input('gpa'),
+        try {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email,' . $id,
+                'password' => 'nullable|confirmed',
+                'stats' => ['array', new NonEmptyArray],
+                'fields' => ['array', new NonEmptyArray],
+                'profile_picture' => 'image|mimes:jpeg,png,gif|max:2048',
             ]);
+            // Find the player by ID or return with an error message
+            $player = User::findOrFail($id);
 
-            if ($request->hasFile('profile_picture')) {
-                $newImage = $request->file('profile_picture');
-                $imageName = time() . '.' . $newImage->getClientOriginalExtension();
-                $newImage->move(public_path('uploads/profile_pictures'), $imageName);
-                $playerProfile->profile_picture = 'uploads/profile_pictures/' . $imageName;
-                $playerProfile->save();
+            if ($request->sport == $player->assigned_sport) {
+                //For Fields
+                if($request->has('field_id')){
+
+                    foreach ($request['field_id'] as $key => $fieldId) {
+
+                        $updateData = [
+                            'value' => $request['fields'][$key]
+                        ];
+
+                        $fieldsValue = FieldsValue::updateOrInsert(
+                            ['field_id' => $fieldId, 'player_id' => $player->id],
+
+                            $updateData
+                        );
+                    }
+                }
+                // For Stats
+                if($request->has('stats_id')){
+
+                    foreach ($request['stats_id'] as $key => $fieldId) {
+
+                        $updateData = [
+                            'value' => $request['stats'][$key]
+                        ];
+
+                        $fieldsValue = StatsValue::updateOrInsert(
+                            ['stats_id' => $fieldId, 'player_id' => $player->id],
+
+                            $updateData
+                        );
+                    }
+                }
+
+            } else {
+                $player->assigned_sport = $request->input('sport');
+                $player->save();
+
             }
-        }
 
-        return redirect()->route('manage-players.index')->with('success', 'Player information updated successfully');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'An error occurred while updating the player: ' . $e->getMessage());
+            $player->name = $request->input('name');
+            $player->email = $request->input('email');
+
+            if ($request->filled('password')) {
+                $player->password = Hash::make($request->input('password'));
+            }
+
+            $player->save();
+
+            // Update player profile if it exists
+            $playerProfile = PlayerProfile::where('user_id', $id)->first();
+
+            if ($playerProfile) {
+                $playerProfile->update([
+                    'introduction' => $request->input('introduction'),
+                    'forty_times' => $request->input('forty_times'),
+                    'vertical_jump' => $request->input('vertical_jump'),
+                    'video_embed' => $request->input('video_embed'),
+                    'gpa' => $request->input('gpa'),
+                ]);
+
+                if ($request->hasFile('profile_picture')) {
+                    $newImage = $request->file('profile_picture');
+                    $imageName = time() . '.' . $newImage->getClientOriginalExtension();
+                    $newImage->move(public_path('uploads/profile_pictures'), $imageName);
+                    $playerProfile->profile_picture = 'uploads/profile_pictures/' . $imageName;
+                    $playerProfile->save();
+                }
+            }
+
+            return redirect()->route('manage-players.index')->with('success', 'Player information updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while updating the player: ' . $e->getMessage());
+        }
     }
-}
 
 
     /**
@@ -177,32 +257,32 @@ public function update(Request $request, $id)
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-{
-    try {
-        // Find the player by ID
-        $player = User::find($id);
+    {
+        try {
+            // Find the player by ID
+            $player = User::find($id);
 
-        if (!$player) {
-            return redirect()->route('manage-players.index')->with('error', 'Player not found.');
-        }
-
-        $playerProfile = PlayerProfile::where('user_id', $id)->first();
-        if ($playerProfile) {
-            // Delete the profile picture file if it exists
-            if (file_exists(public_path($playerProfile->profile_picture))) {
-                unlink(public_path($playerProfile->profile_picture));
+            if (!$player) {
+                return redirect()->route('manage-players.index')->with('error', 'Player not found.');
             }
 
-            $playerProfile->delete();
+            $playerProfile = PlayerProfile::where('user_id', $id)->first();
+            if ($playerProfile) {
+                // Delete the profile picture file if it exists
+                if (file_exists(public_path($playerProfile->profile_picture))) {
+                    unlink(public_path($playerProfile->profile_picture));
+                }
+
+                $playerProfile->delete();
+            }
+
+            // Delete the player
+            $player->delete();
+
+            return redirect()->route('manage-players.index')->with('success', 'Player deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while deleting the player: ' . $e->getMessage());
         }
-
-        // Delete the player
-        $player->delete();
-
-        return redirect()->route('manage-players.index')->with('success', 'Player deleted successfully');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'An error occurred while deleting the player: ' . $e->getMessage());
     }
-}
 
 }

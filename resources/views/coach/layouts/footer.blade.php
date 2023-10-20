@@ -38,7 +38,7 @@
         </div>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap core JavaScript-->
 <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('backend/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -56,12 +56,14 @@
 {{-- <script src="{{asset('backend/js/demo/chart-area-demo.js')}}"></script> --}}
 <script src="{{ asset('backend/js/demo/chart-pie-demo.js') }}"></script>
 
-@stack('scripts')
-
-{{--  Datatable --}}
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+@stack('scripts')
 <script>
+
+{{--  Datatable --}}
     new DataTable('#example');
 </script>
 
@@ -70,3 +72,10 @@
         $('.alert').slideUp();
     }, 4000);
 </script>
+<script>
+    @if (session('error'))
+    toastr.error('{{session('error')}}', "Validation Error");
+
+    @endif
+</script>
+

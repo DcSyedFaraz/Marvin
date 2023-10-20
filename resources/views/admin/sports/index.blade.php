@@ -36,7 +36,7 @@
           </tfoot>
           <tbody>
             @if($sports)
-              @foreach($sports as $sports)   
+              @foreach($sports as $sports)
                 <tr>
                     <td>{{$sports->id}}</td>
                     <td>{{$sports->title}}</td>
@@ -47,23 +47,23 @@
                             <img src="{{asset('backend/img/avatar.png')}}" class="img-fluid rounded-circle" style="max-width:50px" alt="avatar.png">
                         @endif
                     </td>
-                    <td>
+                    <td >
                         @if($sports->status=='active')
                             <span class="badge badge-success">{{$sports->status}}</span>
                         @else
                             <span class="badge badge-warning">{{$sports->status}}</span>
                         @endif
                     </td>
-                    
+
                     <td>
                         <a href="{{route('sport.edit',$sports->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fas fa-edit"></i></a>
                     <form method="POST" action="{{route('sport.destroy',[$sports->id])}}">
-                      @csrf 
+                      @csrf
                       @method('delete')
                           <button class="btn btn-danger btn-sm dltBtn" data-id="{{$sports->id}}" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash-alt"></i></button>
                         </form>
                     </td>
-                </tr>  
+                </tr>
               @endforeach
             @else
               No Record Found.!
@@ -91,12 +91,12 @@
   <!-- Page level plugins -->
   <script src="{{asset('backend/vendor/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('backend/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
 
   <!-- Page level custom scripts -->
   <script src="{{asset('backend/js/demo/datatables-demo.js')}}"></script>
   <script>
-      
+
       $('#user-dataTable').DataTable( {
             "columnDefs":[
                 {
@@ -109,7 +109,7 @@
         // Sweet alert
 
         function deleteData(id){
-            
+
         }
   </script>
   <script>

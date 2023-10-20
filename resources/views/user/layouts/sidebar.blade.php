@@ -22,6 +22,11 @@
             <i class="fas fa-cog"></i>
             <span>Teams</span></a>
     </li>
+    <li class="nav-item {{ request()->routeIs('user_profile.index') ? 'active' : '' }}">
+        <a class="nav-link active" href="{{route('user_profile.index')}}">
+            <i class="fas fa-cog"></i>
+            <span>Profile</span></a>
+    </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url('/logout')}}">
             <i class="fas fa-cog"></i>

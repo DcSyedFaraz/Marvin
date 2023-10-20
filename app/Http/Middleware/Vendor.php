@@ -9,12 +9,13 @@ class Vendor
 
     public function handle($request, Closure $next)
     {
-        if($request->user()->role=='vendor'){
+        $playerId = $request->route('id');
+
+        // Check if the authenticated user can manage the player's profile.
+        if (auth()->user()->canManagePlayerProfile($playerId)) {
             return $next($request);
         }
-        else{
-            request()->session()->flash('error','You do not have any permission to access this page');
-            return redirect()->route($request->user()->role);
-        }
+
+        return abort(403, 'Unauthorized');
     }
 }

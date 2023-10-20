@@ -62,6 +62,15 @@ class PlayerInTeamController extends Controller
 
             $request['status'] = 'pending';
 
+            $existingPlayer = Player::where('user_id', $request->user_id)
+            ->where('team_id', $request->team_id)
+            ->first();
+
+        if ($existingPlayer) {
+            DB::rollback();
+            return redirect()->back()->with('warning', 'Player already added.');
+        }
+
             $player = Player::create($request->all());
 
             DB::commit();
@@ -122,7 +131,7 @@ class PlayerInTeamController extends Controller
             // Delete the player
             $player->delete();
 
-            return redirect()->back()->with('error', 'Player deleted successfully');
+            return redirect()->back()->with('error', 'Player removed successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to delete player. ' . $e->getMessage());
         }

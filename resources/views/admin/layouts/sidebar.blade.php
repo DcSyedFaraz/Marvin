@@ -66,6 +66,12 @@
             <i class="fas fa-users"></i>
             <span>Teams</span></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('post.index') }}">
+          <i class="fas fa-feather"></i>
+          <span>Posts</span>
+        </a>
+      </li>
      <!-- General settings -->
      <li class="nav-item">
         <a class="nav-link" href="{{route('settings')}}">

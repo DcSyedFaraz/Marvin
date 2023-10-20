@@ -23,12 +23,17 @@
             <span>Dashboard</span></a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('team.index') }}">
+    <li class="nav-item {{ request()->routeIs('coach.dashboard') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('coach.dashboard') }}">
             <i class="fas fa-cog"></i>
             <span>Teams</span></a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item {{ request()->routeIs('colleges.dashboard') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('colleges.dashboard') }}">
+            <i class="fas fa-cog"></i>
+            <span>Colleges</span></a>
+    </li>
+    <li class="nav-item {{ request()->routeIs('manage-players.index') ? 'active' : '' }}">
         <a class="nav-link collapsed {{ request()->routeIs('manage-players.index') ? 'active' : '' }}" href="#" data-toggle="collapse" data-target="#categoryCollapse" aria-expanded="true" aria-controls="categoryCollapse">
           <i class="fas fa-sitemap"></i>
           <span>Player's Manage</span>
@@ -40,6 +45,12 @@
             <a class="collapse-item" href="{{route('manage-players.create')}}">Add Player </a>
           </div>
         </div>
+        <li class="nav-item {{ request()->routeIs('posts.index') ? 'active' : '' }}">
+            <a class="nav-link " href="{{ route('posts.index') }}">
+              <i class="fas fa-feather"></i>
+              <span>Posts</span>
+            </a>
+          </li>
 
 
 
@@ -69,7 +80,7 @@
 
         </ul>
     </li> --}}
-    <li class="nav-item">
+    <li class="nav-item {{ request()->routeIs('profile.index') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('profile.index') }}">
             <i class="fas fa-cog"></i>
             <span>Profile</span></a>

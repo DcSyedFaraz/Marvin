@@ -1,15 +1,19 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminTeamController;
+use App\Http\Controllers\Admin\CollegesController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SportsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\athelte\AtheleteController;
 use App\Http\Controllers\coach\PLayerController;
 use App\Http\Controllers\coach\PlayerInTeamController;
+use App\Http\Controllers\coach\PostController;
 use App\Http\Controllers\coach\TeamController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Auth\LoginController;
@@ -35,8 +39,8 @@ Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showRese
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 Route::get('logout', [LoginController::class, 'logout']);
 
-Route::get('payment-paypal', [PaypalController::class,'postPaymentWithpaypal'])->name('payment-paypal')->middleware('auth');
-Route::get('status', [PaypalController::class,'getPaymentStatus'])->name('status')->middleware('auth');
+// Route::get('payment-paypal', [PaypalController::class,'postPaymentWithpaypal'])->name('payment-paypal')->middleware('auth');
+// Route::get('status', [PaypalController::class,'getPaymentStatus'])->name('status')->middleware('auth');
 
 Route::get('/product-grids',[FrontendController::class,'productGrids'])->name('product-grids');
 
@@ -73,7 +77,7 @@ Route::get('/postage-label-terms',[FrontendController::class,'postage_label_term
 Route::get('/FAQ',[FrontendController::class,'faqs'])->name('FAQ');
 Route::get('/contact',[FrontendController::class,'contact'])->name('contact');
 Route::post('/productqa/store',[FrontendController::class,'product_qa_store'])->name('productqa.store');
-Route::post('/contact/message',[\App\Http\Controllers\MessageController::class,'store'])->name('contact.store');
+// Route::post('/contact/message',[\App\Http\Controllers\MessageController::class,'store'])->name('contact.store');
 Route::get('product-detail/{slug}',[FrontendController::class,'productDetail'])->name('product-detail');
 Route::get('/product-review-fetch/{slug}/{id}',[FrontendController::class,'product_review_fetch'])->name('product-review-fetch');
 Route::post('/product/search',[FrontendController::class,'productSearch'])->name('product.search');
@@ -81,10 +85,10 @@ Route::get('/product-cat/{slug}',[FrontendController::class,'productCat'])->name
 Route::get('/product-sub-cat/{slug}',[FrontendController::class,'productSubCat'])->name('product-sub-cat');
 Route::get('/product-brand/{slug}',[FrontendController::class,'productBrand'])->name('product-brand');
 // Cart section
-Route::get('/add-to-cart/{slug}',[\App\Http\Controllers\CartController::class,'addToCart'])->name('add-to-cart')->middleware('user');
-Route::post('/add-to-cart',[\App\Http\Controllers\CartController::class,'singleAddToCart'])->name('single-add-to-cart')->middleware('user');
-Route::get('cart-delete/{id}',[\App\Http\Controllers\CartController::class,'cartDelete'])->name('cart-delete');
-Route::post('cart-update',[\App\Http\Controllers\CartController::class,'cartUpdate'])->name('cart.update');
+// Route::get('/add-to-cart/{slug}',[\App\Http\Controllers\CartController::class,'addToCart'])->name('add-to-cart')->middleware('user');
+// Route::post('/add-to-cart',[\App\Http\Controllers\CartController::class,'singleAddToCart'])->name('single-add-to-cart')->middleware('user');
+// Route::get('cart-delete/{id}',[\App\Http\Controllers\CartController::class,'cartDelete'])->name('cart-delete');
+// Route::post('cart-update',[\App\Http\Controllers\CartController::class,'cartUpdate'])->name('cart.update');
 
 
 // Blog
@@ -101,21 +105,23 @@ Route::post('/subscribe',[FrontendController::class,'subscribe'])->name('subscri
 
 // Backend section start
 
-Route::group(['prefix'=>'admin','middleware'=>['auth']],function(){
+Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']],function(){
     Route::get('/dashboard',[\App\Http\Controllers\Admin\DashboardController::class,'index'])->name('admin.dashboard');
 
-    Route::get('/file-manager',function(){
-        return view('backend.layouts.file-manager');
-    })->name('file-manager');
+
 
     Route::resource('roles', RoleController::class);
     Route::resource('permission', PermissionController::class);
 
-    Route::resource('college',\App\Http\Controllers\Admin\CollegesController::class);
-    Route::get('adminCoach/{id}',[\App\Http\Controllers\Admin\CollegesController::class,'coaches'])->name('adminCoach');
-    Route::post('adminCoachsave',[\App\Http\Controllers\Admin\CollegesController::class,'adminCoachsave'])->name('adminCoachsave');
+    Route::resource('college',CollegesController::class);
+    Route::get('adminCoach/{id}',[CollegesController::class,'coaches'])->name('adminCoach');
+    Route::post('adminCoachsave',[CollegesController::class,'adminCoachsave'])->name('adminCoachsave');
 
-    Route::resource('sport',\App\Http\Controllers\Admin\SportsController::class);
+    Route::resource('sport',SportsController::class);
+    Route::get('sport/field/{id}',[SportsController::class,'fields'])->name('field.delete');
+    Route::get('sport/stats/{id}',[SportsController::class,'stats'])->name('stats.delete');
+    //Posts
+    Route::resource('post',PostController::class);
     // user route
     Route::resource('users',UsersController::class);
     // vendor route
@@ -151,13 +157,14 @@ Route::group(['prefix'=>'/college','middleware'=>['auth','role:college']],functi
 
 // athelete section start
 Route::group(['prefix'=>'/athelete','middleware'=>['auth','role:athelete']],function(){
-    Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'index'])->name('athelete.dashboard');
+    Route::get('/dashboard',[HomeController::class,'index'])->name('athelete.dashboard');
 
     Route::get('/accept/{id}', [AtheleteController::class, 'acceptteam'])->name('athelte.accept');
     Route::get('/decline/{id}', [AtheleteController::class, 'declineteam'])->name('athelte.decline');
     Route::get('/teams', [AtheleteController::class, 'team'])->name('team');
 
     Route::resource('athlete',AtheleteController::class);
+    Route::resource('user_profile',UserProfileController::class);
 
     // Profile
     //  Route::get('/profile',[\App\Http\Controllers\HomeController::class,'profile'])->name('user-profile');
@@ -188,21 +195,26 @@ Route::group(['prefix'=>'/athelete','middleware'=>['auth','role:athelete']],func
 
 // high_school
 Route::group(['prefix'=>'/high_school','middleware'=>['auth','role:high_school']],function(){
-    Route::get('/dashboard',[\App\Http\Controllers\HomeController::class,'high_school'])->name('high_school.dashboard');
+    Route::get('/dashboard',[HomeController::class,'high_school'])->name('high_school.dashboard');
+
 });
 
 
 // coach
 Route::group(['prefix'=>'/coach','middleware'=>['auth','role:coach']],function(){
     Route::get('/dashboard',[HomeController::class,'coach'])->name('coach.dashboard');
+    Route::get('/colleges',[CollegesController::class,'index'])->name('colleges.dashboard');
     Route::get('/resend/{id}', [PlayerInTeamController::class, 'resend'])->name('invite.resend');
 
     //Teams
     Route::resource('team',TeamController::class);
     Route::resource('player',PlayerInTeamController::class);
     Route::get('/teams/{id}',[TeamController::class,'team'])->name('coach.team');
+    Route::get('/manage-players/edit/{id}',[PLayerController::class,'edit'])->name('index.team')->middleware('checkPermission');
     //Player
     Route::resource('manage-players',PLayerController::class);
+    //Posts
+    Route::resource('posts',PostController::class);
 
 });
 

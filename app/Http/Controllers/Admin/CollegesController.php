@@ -21,7 +21,7 @@ class CollegesController extends Controller
      */
     public function index()
     {
-        $data['colleges'] = Colleges::paginate(10);
+        $data['colleges'] = Colleges::all();
         return view('admin.colleges.index', $data);
     }
 
