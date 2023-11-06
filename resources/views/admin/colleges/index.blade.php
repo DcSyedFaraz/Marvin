@@ -5,7 +5,6 @@
  <div class="card shadow mb-4">
      <div class="row">
          <div class="col-md-12">
-            @include('admin.layouts.notification')
          </div>
      </div>
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

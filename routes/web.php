@@ -114,8 +114,15 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']],function(){
     Route::resource('permission', PermissionController::class);
 
     Route::resource('college',CollegesController::class);
+    Route::post('/upload',[CollegesController::class,'uploadCsv'])->name('upload.csv');
     Route::get('adminCoach/{id}',[CollegesController::class,'coaches'])->name('adminCoach');
     Route::post('adminCoachsave',[CollegesController::class,'adminCoachsave'])->name('adminCoachsave');
+    Route::controller(CollegesController::class)->group(function () {
+        Route::get('coach/data', 'data')->name('coach.data');
+        Route::get('coach/data/{id}', 'Editdata')->name('data.edit');
+        Route::put('coach/update/{id}', 'updatedata')->name('data.update');
+        Route::delete('coach/data/delete/{id}', 'Deletedata')->name('data.destroy');
+    });
 
     Route::resource('sport',SportsController::class);
     Route::get('sport/field/{id}',[SportsController::class,'fields'])->name('field.delete');

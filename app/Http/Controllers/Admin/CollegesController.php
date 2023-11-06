@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\coach_sport;
+use App\Models\CoachData;
 use App\Models\Colleges;
 use App\Http\Controllers\Controller;
 use App\Models\Sports;
 use App\Models\User;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use League\Csv\Reader;
+use League\Csv\Statement;
 use Log;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -19,6 +24,101 @@ class CollegesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function uploadCsv(Request $request)
+    {
+        // dd('done');
+        // $request->validate([
+        //     'csv_file' => 'required|file|mimes:csv,txt',
+        // ]);
+
+        // Retrieve and parse the CSV file
+        // $csv = Reader::createFromPath($request->file('csv_file')->getPathname(), 'r');
+        // $csv->setHeaderOffset(0);
+        // $headers = $csv->getHeader();
+        // $records = Statement::create()->process($csv);
+        // dd($csv);
+        // Schema::create('dynamic_table', function (Blueprint $table) use ($headers) {
+        //     $table->id();
+        //     foreach ($headers as $header) {
+        //         $table->string($header);
+        //     }
+        //     $table->timestamps(0);
+        // });
+
+
+        // foreach ($records as $record) {
+        //     DB::table('dynamic_table')->insert($record);
+        // }
+
+        // return redirect()->back()->with('success', 'CSV data uploaded and table created.');
+
+        try {
+            $request->validate([
+                'csv_file' => 'required|file|mimes:csv',
+            ]);
+
+            DB::beginTransaction();
+
+            $csv = Reader::createFromPath($request->file('csv_file')->getPathname(), 'r');
+            $csv->setHeaderOffset(0);
+            $records = Statement::create()->process($csv);
+
+            foreach ($records as $record) {
+                DB::table('dynamic_table')->insert($record);
+            }
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'CSV data uploaded and table created.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->back()->with('error', 'An error occurred while processing the CSV. Please try again.');
+        }
+    }
+    public function data()
+    {
+        $data['data'] = CoachData::orderby('created_at', 'desc')->get();
+        // dd($data);
+        return view('admin.coachData.data', $data);
+    }
+    public function Editdata($id)
+    {
+        $data['conference'] = CoachData::find($id);
+        return view('admin.coachData.edit', $data);
+    }
+    public function updatedata(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $coachData = CoachData::findOrFail($id); // Find the record by ID
+            $coachData->update($request->all()); // Replace with the actual fields
+
+            // $coachData->save();
+
+            DB::commit();
+
+            return redirect()->route('coach.data')->with('success', 'Data updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return redirect()->back()->with('error', 'An error occurred while updating the data. Please try again.');
+        }
+    }
+    public function Deletedata($id)
+    {
+        try {
+            DB::beginTransaction();
+            $coachData = CoachData::findOrFail($id);
+            $coachData->delete();
+            DB::commit();
+            return redirect()->back()->with('success', 'Data Deleted Successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'An error occurred while deleting the data. Please try again.');
+        }
+    }
     public function index()
     {
         $data['colleges'] = Colleges::all();

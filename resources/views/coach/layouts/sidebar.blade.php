@@ -25,12 +25,12 @@
 
     <li class="nav-item {{ request()->routeIs('coach.dashboard') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('coach.dashboard') }}">
-            <i class="fas fa-cog"></i>
+            <i class="fas fa-rocket"></i>
             <span>Teams</span></a>
     </li>
     <li class="nav-item {{ request()->routeIs('colleges.dashboard') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('colleges.dashboard') }}">
-            <i class="fas fa-cog"></i>
+            <i class="fas fa-university"></i>
             <span>Colleges</span></a>
     </li>
     <li class="nav-item {{ request()->routeIs('manage-players.index') ? 'active' : '' }}">
@@ -82,7 +82,7 @@
     </li> --}}
     <li class="nav-item {{ request()->routeIs('profile.index') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('profile.index') }}">
-            <i class="fas fa-cog"></i>
+            <i class="fas fa-user"></i>
             <span>Profile</span></a>
     </li>
     <li class="nav-item">

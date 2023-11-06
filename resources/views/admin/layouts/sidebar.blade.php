@@ -32,10 +32,16 @@
     </div>
 
      <!-- Users -->
-     <li class="nav-item">
+     <li class="nav-item {{ request()->routeIs('college.*')? 'active' : '' }}">
         <a class="nav-link" href="{{route('college.index')}}">
-          <i class="fas fa-users"></i>
+          <i class="fas fa-university"></i>
           <span>Colleges</span>
+        </a>
+    </li>
+     <li class="nav-item {{ request()->routeIs(['coach.data','data.*'])? 'active' : '' }}">
+        <a class="nav-link " href="{{route('coach.data')}}">
+          <i class="fas fa-graduation-cap"></i>
+          <span>Coaches Data</span>
         </a>
     </li>
 
