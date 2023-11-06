@@ -1,8 +1,55 @@
-@extends('frontend.layouts.master')
-@section('title','E-SHOP || HOME PAGE')
-@section('content')
+<!DOCTYPE html>
+<html lang="en">
 
-<section>
+<head>
+  <title>Marvin</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600&family=Oswald&display=swap"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+  <!-- //////////SLICK_SLIDER/////////// -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <header>
+    <div
+      class="container-fluid header d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
+      <div class="col-md-2">
+        <img src="./assets/images/headlogo.png" width="180px">
+      </div>
+      <div class="col-md-8">
+        <ul class="nav col-12 col-md-auto mb-2">
+          <li><a href="./index.html" class="nav-link px-2 link-dark">Home</a></li>
+          <li><a href="./about-us.html" class="nav-link px-2 link-dark">About Us</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">Servies</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">Hot Prospects</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">College Coaches</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">Student Athlete</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">High School</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">Coaches</a></li>
+          <li><a href="./contact-us.html" class="nav-link px-2 link-dark">Contact Us</a></li>
+      </ul>
+
+      </div>
+      <div class="col-md-2 text-end">
+        <button type="button" class="btn gradint"><a href="/login">Log In</a></button>
+      </div>
+    </div>
+  </header>
+
+
+  <section>
 
     <div data-aos="fade-down" class="slider-main">
       <div class="slider1">
@@ -118,13 +165,13 @@
           </div>
         </div>
         <div class="col-2 p-0">
-          <img src="assets/images/ser2.png" width="100%" alt="2">
+          <img src="./assets/images/ser2.png" width="100%" alt="2">
         </div>
         <div class="col-2 p-0">
-          <img src="assets/images/ser3.png" width="100%" alt="3">
+          <img src="./assets/images/ser3.png" width="100%" alt="3">
         </div>
         <div class="col-2 p-0">
-          <img src="assets/images/ser4.png" width="100%" alt="4">
+          <img src="./assets/images/ser4.png" width="100%" alt="4">
         </div>
       </div>
     </div>
@@ -166,7 +213,7 @@
           <div class="col-4">
             <figure class="effect-lily">
               <div class="content-overlay"></div>
-              <img src="assets/images/selena.png" alt="img12" />
+              <img src="./assets/images/selena.png" alt="img12" />
               <figcaption>
                 <div class="content-service">
                   <h5>Selena Jack</h5>
@@ -180,7 +227,7 @@
           <div class="col-4">
             <figure class="effect-lily">
               <div class="content-overlay"></div>
-              <img src="assets/images/keth.png" alt="img1" />
+              <img src="./assets/images/keth.png" alt="img1" />
               <figcaption>
                 <div class="content-service">
                   <h5>Kathrien Lopez</h5>
@@ -194,7 +241,7 @@
           <div class="col-4">
             <figure class="effect-lily">
               <div class="content-overlay"></div>
-              <img src="assets/images/michal.png" alt="img1" />
+              <img src="./assets/images/michal.png" alt="img1" />
               <figcaption>
                 <div class="content-service">
                   <h5>Michal Orton</h5>
@@ -220,17 +267,17 @@
           <div class="col-4">
             <figure class="effect-lily">
               <div class="content-overlay"></div>
-              <img src="assets/images/max.png" alt="img12" />
+              <img src="./assets/images/max.png" alt="img12" />
               <figcaption>
                 <div class="content-service">
                   <h5>Max Payne</h5>
                   <p>Lorem Ipsum is simply dummy text of the printing the industry's standard</p>
                   <button type="button" class="btn white">Read More</button>
                   <ul class="social-icon">
-                    <li><a href="#"></a><img src="assets/images/facebook.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/twitter.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/pinterest.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/instagram.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/facebook.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/twitter.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/pinterest.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/instagram.png" alt="img1" /></a></li>
                   </ul>
                 </div>
 
@@ -240,18 +287,18 @@
           <div class="col-4">
             <figure class="effect-lily">
               <div class="content-overlay"></div>
-              <img src="assets/images/jenni.png" alt="img1" />
+              <img src="./assets/images/jenni.png" alt="img1" />
               <figcaption>
                 <div class="content-service">
                   <h5>Jennifer Lopez</h5>
                   <p>Lorem Ipsum is simply dummy text of the printing the industry's standard</p>
                   <button type="button" class="btn white">Read More</button>
                   <ul class="social-icon">
-                    <li><a href="#"></a><img src="assets/images/facebook.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/facebook.png" alt="img1" /></a></li>
                     <li></li>
-                    <li><a href="#"></a><img src="assets/images/twitter.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/pinterest.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/instagram.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/twitter.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/pinterest.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/instagram.png" alt="img1" /></a></li>
                   </ul>
                 </div>
 
@@ -261,18 +308,18 @@
           <div class="col-4">
             <figure class="effect-lily">
               <div class="content-overlay"></div>
-              <img src="assets/images/Michal Orton.png" alt="img1" />
+              <img src="./assets/images/Michal Orton.png" alt="img1" />
               <figcaption>
                 <div class="content-service">
                   <h5>Michal Orton</h5>
                   <p>Lorem Ipsum is simply dummy text of the printing the industry's standard</p>
                   <button type="button" class="btn white">Read More</button>
                   <ul class="social-icon">
-                    <li><a href="#"></a><img src="assets/images/facebook.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/facebook.png" alt="img1" /></a></li>
                     <li></li>
-                    <li><a href="#"></a><img src="assets/images/twitter.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/pinterest.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/instagram.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/twitter.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/pinterest.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/instagram.png" alt="img1" /></a></li>
                   </ul>
                 </div>
               </figcaption>
@@ -294,17 +341,17 @@
           <div class="col-4">
             <figure class="effect-lily">
               <div class="content-overlay"></div>
-              <img src="assets/images/Tony.png" alt="img12" />
+              <img src="./assets/images/Tony.png" alt="img12" />
               <figcaption>
                 <div class="content-service">
                   <h5>Tony Rino</h5>
                   <p>Lorem Ipsum is simply dummy text of the printing the industry's standard</p>
                   <button type="button" class="btn white">Read More</button>
                   <ul class="social-icon">
-                    <li><a href="#"></a><img src="assets/images/facebook.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/twitter.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/pinterest.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/instagram.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/facebook.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/twitter.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/pinterest.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/instagram.png" alt="img1" /></a></li>
                   </ul>
                 </div>
               </figcaption>
@@ -313,18 +360,18 @@
           <div class="col-4">
             <figure class="effect-lily">
               <div class="content-overlay"></div>
-              <img src="assets/images/david.png" alt="img1" />
+              <img src="./assets/images/david.png" alt="img1" />
               <figcaption>
                 <div class="content-service">
                   <h5>David Thomas</h5>
                   <p>Lorem Ipsum is simply dummy text of the printing the industry's standard</p>
                   <button type="button" class="btn white">Read More</button>
                   <ul class="social-icon">
-                    <li><a href="#"></a><img src="assets/images/facebook.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/facebook.png" alt="img1" /></a></li>
                     <li></li>
-                    <li><a href="#"></a><img src="assets/images/twitter.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/pinterest.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/instagram.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/twitter.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/pinterest.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/instagram.png" alt="img1" /></a></li>
                   </ul>
                 </div>
 
@@ -334,18 +381,18 @@
           <div class="col-4">
             <figure class="effect-lily">
               <div class="content-overlay"></div>
-              <img src="assets/images/jack.png" alt="img1" />
+              <img src="./assets/images/jack.png" alt="img1" />
               <figcaption>
                 <div class="content-service">
                   <h5>Jack Thomas</h5>
                   <p>Lorem Ipsum is simply dummy text of the printing the industry's standard</p>
                   <button type="button" class="btn white">Read More</button>
                   <ul class="social-icon">
-                    <li><a href="#"></a><img src="assets/images/facebook.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/facebook.png" alt="img1" /></a></li>
                     <li></li>
-                    <li><a href="#"></a><img src="assets/images/twitter.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/pinterest.png" alt="img1" /></a></li>
-                    <li><a href="#"></a><img src="assets/images/instagram.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/twitter.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/pinterest.png" alt="img1" /></a></li>
+                    <li><a href="#"></a><img src="./assets/images/instagram.png" alt="img1" /></a></li>
                   </ul>
                 </div>
               </figcaption>
@@ -381,25 +428,25 @@
 
           </div>
           <div class="col-8 portfolio-slider">
-            <div class="element element-1"><img src="assets/images/img1.png" /></div>
-            <div class="element element-2"><img src="assets/images/img2.png" /></div>
-            <div class="element element-3"><img src="assets/images/img3.png" /></div>
-            <div class="element element-4"><img src="assets/images/img4.png" /></div>
-            <div class="element element-1"><img src="assets/images/img1.png" /></div>
-            <div class="element element-2"><img src="assets/images/img2.png" /></div>
+            <div class="element element-1"><img src="./assets/images/img1.png" /></div>
+            <div class="element element-2"><img src="./assets/images/img2.png" /></div>
+            <div class="element element-3"><img src="./assets/images/img3.png" /></div>
+            <div class="element element-4"><img src="./assets/images/img4.png" /></div>
+            <div class="element element-1"><img src="./assets/images/img1.png" /></div>
+            <div class="element element-2"><img src="./assets/images/img2.png" /></div>
           </div>
 
           <div class="row my-5">
             <div class="container-fluid text-center">
               <section class="customer-logos slider">
-                <div class="slide"><img src="assets/images/logoa.png"></div>
-                <div class="slide"><img src="assets/images/logob.png"></div>
-                <div class="slide"><img src="assets/images/logoc.png"></div>
-                <div class="slide"><img src="assets/images/logoe.png"></div>
-                <div class="slide"><img src="assets/images/logof.png"></div>
-                <div class="slide"><img src="assets/images/logog.png"></div>
-                <div class="slide"><img src="assets/images/logoh.png"></div>
-                <div class="slide"><img src="assets/images/logoi.png"></div>
+                <div class="slide"><img src="./assets/images/logoa.png"></div>
+                <div class="slide"><img src="./assets/images/logob.png"></div>
+                <div class="slide"><img src="./assets/images/logoc.png"></div>
+                <div class="slide"><img src="./assets/images/logoe.png"></div>
+                <div class="slide"><img src="./assets/images/logof.png"></div>
+                <div class="slide"><img src="./assets/images/logog.png"></div>
+                <div class="slide"><img src="./assets/images/logoh.png"></div>
+                <div class="slide"><img src="./assets/images/logoi.png"></div>
 
               </section>
             </div>
@@ -419,7 +466,7 @@
                   <figure class="effect-lily">
                     <div class="content-overlay"></div>
                     <div class="category">news</div>
-                    <img src="assets/images/new1.png" alt="img12" />
+                    <img src="./assets/images/new1.png" alt="img12" />
                     <figcaption>
                       <div class="content-service">
                         <h5>SCOUTING SERVICE</h5>
@@ -434,7 +481,7 @@
                   <figure class="effect-lily">
                     <div class="content-overlay"></div>
                     <div class="category">news</div>
-                    <img src="assets/images/news2.png" alt="img1" />
+                    <img src="./assets/images/news2.png" alt="img1" />
                     <figcaption>
                       <div class="content-service">
                         <h5>SCOUTING SERVICE</h5>
@@ -449,7 +496,7 @@
                   <figure class="effect-lily">
                     <div class="content-overlay"></div>
                     <div class="category">news</div>
-                    <img src="assets/images/new3.png" alt="img1" />
+                    <img src="./assets/images/new3.png" alt="img1" />
                     <figcaption>
                       <div class="content-service">
                         <h5>SCOUTING SERVICE</h5>
@@ -462,7 +509,7 @@
                   <figure class="effect-lily">
                     <div class="content-overlay"></div>
                     <div class="category">news</div>
-                    <img src="assets/images/new3.png" alt="img1" />
+                    <img src="./assets/images/new3.png" alt="img1" />
                     <figcaption>
                       <div class="content-service">
                         <h5>SCOUTING SERVICE</h5>
@@ -480,33 +527,33 @@
               <h2>HIRING PROCESS</h2>
               <div class="row porcessss">
                 <div class="col-2 steps">
-                  <img src="assets/images/step1.png" alt="step">
+                  <img src="./assets/images/step1.png" alt="step">
                   <button type="button" class="btn-process">MARKET</button>
                   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
 
                 </div>
                 <div class="col-2 steps">
-                  <img src="assets/images/step2.png" alt="step">
+                  <img src="./assets/images/step2.png" alt="step">
                   <button type="button" class="btn-process">PERSONNEL RESEARCH</button>
                   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
                 </div>
                 <div class="col-2 steps">
-                  <img src="assets/images/step3.png" alt="step">
+                  <img src="./assets/images/step3.png" alt="step">
                   <button type="button" class="btn-process">HEADHUNTING</button>
                   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
                 </div>
                 <div class="col-2 steps">
-                  <img src="assets/images/step4.png" alt="step">
+                  <img src="./assets/images/step4.png" alt="step">
                   <button type="button" class="btn-process">JOB INTERVIEW</button>
                   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
                 </div>
                 <div class="col-2 steps">
-                  <img src="assets/images/step5.png" alt="step">
+                  <img src="./assets/images/step5.png" alt="step">
                   <button type="button" class="btn-process">EMPLOYEE INFO</button>
                   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
                 </div>
                 <div class="col-2 steps">
-                  <img src="assets/images/step6.png" alt="step">
+                  <img src="./assets/images/step6.png" alt="step">
                   <button type="button" class="btn-process">RECRUITMENT</button>
                   <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
                 </div>
@@ -532,7 +579,7 @@
                                   <i class="fas fa-quote-right"></i>
                                 </div>
                                 <div class="testimonial_box-text">
-                                  <img src="assets/images/john1.png">
+                                  <img src="./assets/images/john1.png">
                                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus scelerisque
                                     aliquam nulla. Mauris mauris nulla, pulvinar et nisi sit amet, interdum luctus
                                     lacus. Vivamus volutpat orci risus, quis feugiat elit tincidunt in. Quisque
@@ -560,7 +607,7 @@
                                   <i class="fas fa-quote-right"></i>
                                 </div>
                                 <div class="testimonial_box-text">
-                                  <img src="assets/images/john2.png">
+                                  <img src="./assets/images/john2.png">
                                   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus scelerisque
                                     aliquam nulla. Mauris mauris nulla, pulvinar et nisi sit amet, interdum luctus
                                     lacus. Vivamus volutpat orci risus, quis feugiat elit tincidunt in. Quisque
@@ -591,11 +638,11 @@
                 <h2>LOREM IPSUM</h2>
                 <div class="row blog-boxmain text-start">
                   <div class="col-4 blog-box">
-                    <img src="assets/images/blog1.png" width="100%" />
+                    <img src="./assets/images/blog1.png" width="100%" />
                     <div class="blog-contant">
                       <ul class="meta-box">
-                        <li><span class="blog-icon"><img src="assets/images/admin.png">Admin</span></li>
-                        <li><span class="blog-icon"><img src="assets/images/mail.png">Comment</span></li>
+                        <li><span class="blog-icon"><img src="./assets/images/admin.png">Admin</span></li>
+                        <li><span class="blog-icon"><img src="./assets/images/mail.png">Comment</span></li>
                       </ul>
                       <h5>Lorem Ipsum Dummy Insdus Try Again</h5>
                       <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
@@ -604,11 +651,11 @@
                     </div>
                   </div>
                   <div class="col-4 blog-box">
-                    <img src="assets/images/blog2.png" width="100%" />
+                    <img src="./assets/images/blog2.png" width="100%" />
                     <div class="blog-contant">
                       <ul class="meta-box">
-                        <li><span class="blog-icon"><img src="assets/images/admin.png">Admin</span></li>
-                        <li><span class="blog-icon"><img src="assets/images/mail.png">Comment</span></li>
+                        <li><span class="blog-icon"><img src="./assets/images/admin.png">Admin</span></li>
+                        <li><span class="blog-icon"><img src="./assets/images/mail.png">Comment</span></li>
                       </ul>
                       <h5>Lorem Ipsum Dummy Insdus Try Again</h5>
                       <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
@@ -617,11 +664,11 @@
                     </div>
                   </div>
                   <div class="col-4 blog-box">
-                    <img src="assets/images/blog3.png" width="100%" />
+                    <img src="./assets/images/blog3.png" width="100%" />
                     <div class="blog-contant">
                       <ul class="meta-box">
-                        <li><span class="blog-icon"><img src="assets/images/admin.png">Admin</span></li>
-                        <li><span class="blog-icon"><img src="assets/images/mail.png">Comment</span></li>
+                        <li><span class="blog-icon"><img src="./assets/images/admin.png">Admin</span></li>
+                        <li><span class="blog-icon"><img src="./assets/images/mail.png">Comment</span></li>
                       </ul>
                       <h5>Lorem Ipsum Dummy Insdus Try Again</h5>
                       <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
@@ -635,4 +682,193 @@
 
   </section>
 
-@endsection
+
+
+  <footer>
+    <div class="container">
+      <div class="row foot">
+        <div class="col-4">
+          <img src="./assets/images/headlogo.png" height="60px" width="175px">
+          <p class="foot-txt about-me">Lorem ipsum dolor sit amet, sectetur adipisicing elit, sed do eiusmod mpor
+            incididunt ut labore et dolore Lorem ipsum dolor sit amet, sectetur adipisicing elit, sed do eiusmod</p>
+          </br>
+          <ul class="socialization">
+            <li><a href="#"><img src="./assets/images/twitter.png"></a></li>
+            <li><a href="#"><img src="./assets/images/facebook.png"></a></li>
+            <li><a href="#"><img src="./assets/images/instagram.png"></a></li>
+            <li><a href="#"><img src="./assets/images/pinterest.png"></a></li>
+          </ul>
+        </div>
+        <div class="col-2">
+          <h6>More Links</h6>
+          <ul class="foot-txt">
+            <li>About Us</li>
+            <li>Solutions</li>
+            <li>Blog</li>
+            <li>Contact</li>
+
+          </ul>
+        </div>
+        <div class="col-2">
+          <h6>Contact</h6>
+          <ul class="contact-icon">
+            <li><a href="#"><img src="./assets/images/map.png">Orange Street,USA </a></li>
+            <li><a href="#"><img src="./assets/images/mail.png">example@mail.com</a></li>
+            <li><a href="#"><img src="./assets/images/admin.png">880 123 456 789</a></li>
+          </ul>
+        </div>
+
+        <div class="col-4 newsletters">
+          <h6>Newsletters</h6>
+          <form action="/action_page.php">
+            <div class="form-group">
+              <p style="color: black;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ut libero ut
+                diam finibus</p>
+              <label for="email"></label>
+              <input type="email" placeholder="Your email" class="form-control" id="email" name="email">
+              <button type="submit" class="btn footbtn">Send</button>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+    </div>
+    <div class="container-fluid maincopy_right">
+      <div class="container">
+        <div class="copy-right ">
+          <p>© 2022 Marvin Kendricks All Rights Reserved</p>
+          <ul class="payment-logos">
+            <img src="./assets/images/paymentlogos.png">
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <script>
+    $('.slider-main').slick();
+  </script>
+
+  <script>
+
+    $(document).ready(function () {
+      $(".counter").each(function () {
+        var $this = $(this),
+          countTo = $this.attr("data-countto");
+        countDuration = parseInt($this.attr("data-duration"));
+        $({ counter: $this.text() }).animate(
+          {
+            counter: countTo
+          },
+          {
+            duration: countDuration,
+            easing: "linear",
+            step: function () {
+              $this.text(Math.floor(this.counter));
+            },
+            complete: function () {
+              $this.text(this.counter);
+            }
+          }
+        );
+      });
+    });
+
+
+  </script>
+
+  <script>
+    $(".portfolio-slider").slick({
+      slidesToShow: 3,
+      infinite: true,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 2000,
+      dots: true, Boolean
+    });
+  </script>
+
+  <script>
+    $(".newss-slider").slick({
+      slidesToShow: 3,
+      infinite: true,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 2000,
+      dots: true, Boolean
+    });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      $('.testimonial-slider').slick({
+        autoplay: true,
+        autoplaySpeed: 1000,
+        speed: 600,
+        draggable: true,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: false,
+        responsive: [
+          {
+            breakpoint: 991,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1,
+            }
+          },
+          {
+            breakpoint: 575,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+            }
+          }
+        ]
+      });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      $('.customer-logos').slick({
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 1500,
+        speed: 600,
+        arrows: false,
+        dots: false,
+        pauseOnHover: false,
+        responsive: [{
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 4
+          }
+        }, {
+          breakpoint: 520,
+          settings: {
+            slidesToShow: 3
+          }
+        }]
+      });
+    });
+  </script>
+
+  <script>
+    AOS.init({ once: true });
+  </script>
+
+</body>
+
+</html>
