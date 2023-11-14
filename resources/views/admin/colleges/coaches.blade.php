@@ -55,11 +55,7 @@
 @push('styles')
     <link href="{{ asset('backend/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-    <style>
-        div.dataTables_wrapper div.dataTables_paginate {
-            display: none;
-        }
-    </style>
+   
 @endpush
 
 @push('scripts')

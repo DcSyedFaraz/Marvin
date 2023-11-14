@@ -28,7 +28,7 @@
 
      <!-- Heading -->
     <div class="sidebar-heading">
-        General Settings
+        Generals
     </div>
 
      <!-- Users -->

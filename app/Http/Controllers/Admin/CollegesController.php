@@ -69,7 +69,7 @@ class CollegesController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('success', 'CSV data uploaded and table created.');
+            return redirect()->back()->with('success', 'CSV data uploaded.');
         } catch (\Exception $e) {
             DB::rollBack();
 
