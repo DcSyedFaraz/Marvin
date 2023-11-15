@@ -22,6 +22,11 @@
             <i class="fas fa-cog"></i>
             <span>Teams</span></a>
     </li>
+    <li class="nav-item {{ request()->routeIs('searchcollege.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('searchcollege.index') }}">
+            <i class="fas fa-search"></i>
+            <span>Search College</span></a>
+    </li>
     <li class="nav-item {{ request()->routeIs('user_profile.index') ? 'active' : '' }}">
         <a class="nav-link active" href="{{route('user_profile.index')}}">
             <i class="fas fa-cog"></i>

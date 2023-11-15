@@ -104,6 +104,10 @@ Route::post('/subscribe',[FrontendController::class,'subscribe'])->name('subscri
 
 
 // Backend section start
+Route::group(['prefix'=>'manage','middleware'=>['auth']],function(){
+    Route::get('/searchcollege',[AtheleteController::class,'searchPage'])->name('searchcollege.index');
+    Route::get('/searchcolleges',[AtheleteController::class,'searchcollege'])->name('searchcollege.search');
+});
 
 Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']],function(){
     Route::get('/dashboard',[\App\Http\Controllers\Admin\DashboardController::class,'index'])->name('admin.dashboard');
@@ -222,6 +226,9 @@ Route::group(['prefix'=>'/coach','middleware'=>['auth','role:coach']],function()
     Route::resource('manage-players',PLayerController::class);
     //Posts
     Route::resource('posts',PostController::class);
+    //Search
+    Route::get('/search',[TeamController::class,'search'])->name('coach.search');
+    Route::get('/searchPage',[TeamController::class,'searchPage'])->name('page.search');
 
 });
 

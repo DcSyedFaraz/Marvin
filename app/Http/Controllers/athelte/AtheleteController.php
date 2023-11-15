@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\athelte;
 
 use App\Http\Controllers\Controller;
+use App\Models\Colleges;
 use App\Models\Player;
+use App\Models\Sports;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -18,9 +20,9 @@ class AtheleteController extends Controller
     {
         $teams = Team::whereHas('Player', function ($query) {
             $query->where('status', 'accepted');
-                })->get();
-                // dd($team);
-                return view('user.teams.teams',compact('teams'));
+        })->get();
+        // dd($team);
+        return view('user.teams.teams', compact('teams'));
     }
     public function acceptteam($id)
     {
@@ -56,9 +58,37 @@ class AtheleteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function searchPage()
     {
-        //
+        $data['sport'] = Sports::all();
+
+        // dd('done');
+        $data['college'] = Colleges::all();
+        return view('search.search', $data);
+    }
+    public function searchcollege(Request $request)
+    {
+        // dd($request->sports);
+        $data['sport'] = Sports::all();
+
+        $request->validate([
+            // 'sports' => 'required',
+            // 'name' => 'required',
+        ]);
+
+        if(!empty($request->sports)){
+
+            $data['college'] = Colleges::where('title', 'LIKE', '%' . $request->name . '%')
+                ->WhereHas('sports', function ($query) use ($request) {
+                    $query->where('sports_id', $request->sports);
+                })
+                ->get();
+        } else {
+            $data['college'] = Colleges::where('title', 'LIKE', '%' . $request->name . '%')->get();
+        }
+
+        return view('search.search', $data);
+
     }
 
     /**

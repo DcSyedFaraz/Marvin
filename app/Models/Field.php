@@ -21,4 +21,7 @@ class Field extends Model
     public function fieldValues() {
         return $this->hasMany(FieldsValue::class, 'field_id', 'id');
     }
+    public function sport() {
+        return $this->belongsTo(Sports::class,'sports_id','id');
+    }
 }

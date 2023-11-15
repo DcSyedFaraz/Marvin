@@ -4,7 +4,9 @@ namespace App\Http\Controllers\coach;
 
 use App\Http\Controllers\Controller;
 use App\Models\coach_sport;
+use App\Models\Field;
 use App\Models\Player;
+use App\Models\Sports;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,9 +23,9 @@ class TeamController extends Controller
     {
         // dd('a');
         $coach = coach_sport::find($id);
-        $teams = Team::where('colleges_id',$coach->colleges_id)->where('sports_id',$coach->sports_id)->get();
+        $teams = Team::where('colleges_id', $coach->colleges_id)->where('sports_id', $coach->sports_id)->get();
         // dd($team);
-        return view('coach.team.index',compact('teams','coach'));
+        return view('coach.team.index', compact('teams', 'coach'));
     }
 
     /**
@@ -34,6 +36,41 @@ class TeamController extends Controller
     public function create()
     {
         return view('coach.team.create');
+    }
+    public function searchPage()
+    {
+        $data['sport'] = Sports::all();
+        $data['field'] = Field::all();
+
+        return view('coach.search.search', $data);
+    }
+    public function search(Request $request)
+    {
+        // return $request;
+        // Validate the incoming request
+        $request->validate([
+            'sports' => 'required',
+            // 'name' => 'required',
+        ]);
+
+        // Get athletes based on the search criteria
+        // $data['athletes'] = User::whereHas('fields', function ($query) use ($request) {
+        //     $query->whereHas('field_name', function ($query) use ($request) {
+        //         $query->where('name', $request->input('position'))
+        //             ->whereHas('sport', function ($query) use ($request) {
+        //                 $query->where('title', $request->input('sports'));
+        //             });
+        //     });
+        // })->get();
+        $data['athletes'] = User::where('name', 'LIKE', '%' . $request->name . '%')
+        ->where('assigned_sport', $request->sports)
+        ->get();
+
+        $data['sport'] = Sports::all();
+        $data['field'] = Field::all();
+        // return $data['athletes'];
+        // Return the view with the search results
+        return view('coach.search.search', $data);
     }
 
     /**
@@ -47,7 +84,7 @@ class TeamController extends Controller
         // return $request;
         $request['createdBy'] = Auth::user()->id;
         $team = Team::create($request->all());
-        return redirect()->back()->with('success','Team created successfully');
+        return redirect()->back()->with('success', 'Team created successfully');
 
     }
 
@@ -70,11 +107,11 @@ class TeamController extends Controller
      */
     public function edit($id)
     {
-        $players = Player::with('users')->where('team_id',$id)->get();
+        $players = Player::with('users')->where('team_id', $id)->get();
         $team = Team::find($id);
         $playersToAdd = User::withRole('athelete')->get();
         // dd($players);
-        return view('coach.team.edit', compact('team','players','playersToAdd'));
+        return view('coach.team.edit', compact('team', 'players', 'playersToAdd'));
     }
 
     /**
@@ -88,7 +125,7 @@ class TeamController extends Controller
     {
         $team = Team::findOrFail($id);
         $team->update($request->all());
-        return redirect()->back()->with('success','Team Updated Successfully');
+        return redirect()->back()->with('success', 'Team Updated Successfully');
     }
 
     /**
@@ -99,8 +136,8 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        $delete=Team::findorFail($id);
-        $status=$delete->delete();
-        return redirect()->back()->with('success','Team Deleted successfully');
+        $delete = Team::findorFail($id);
+        $status = $delete->delete();
+        return redirect()->back()->with('success', 'Team Deleted successfully');
     }
 }

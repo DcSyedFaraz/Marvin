@@ -33,6 +33,11 @@
             <i class="fas fa-university"></i>
             <span>Colleges</span></a>
     </li>
+    <li class="nav-item {{ request()->routeIs('*.search') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('page.search') }}">
+            <i class="fas fa-search"></i>
+            <span>Search Athlete</span></a>
+    </li>
     <li class="nav-item {{ request()->routeIs('manage-players.index') ? 'active' : '' }}">
         <a class="nav-link collapsed {{ request()->routeIs('manage-players.index') ? 'active' : '' }}" href="#" data-toggle="collapse" data-target="#categoryCollapse" aria-expanded="true" aria-controls="categoryCollapse">
           <i class="fas fa-sitemap"></i>
