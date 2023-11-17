@@ -24,8 +24,13 @@
     </li>
     <li class="nav-item {{ request()->routeIs('searchcollege.*') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('searchcollege.index') }}">
-            <i class="fas fa-search"></i>
+            <i class="fas fa-graduation-cap"></i>
             <span>Search College</span></a>
+    </li>
+    <li class="nav-item {{ request()->routeIs('searchCoach.*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('searchCoach.index') }}">
+            <i class="fas fa-user-tie"></i>
+            <span>Search Coach</span></a>
     </li>
     <li class="nav-item {{ request()->routeIs('user_profile.index') ? 'active' : '' }}">
         <a class="nav-link active" href="{{route('user_profile.index')}}">
@@ -34,7 +39,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url('/logout')}}">
-            <i class="fas fa-cog"></i>
+            <i class="fas fa-sign-out-alt nav-icon text-danger"></i>
             <span>Logout</span></a>
     </li>
 

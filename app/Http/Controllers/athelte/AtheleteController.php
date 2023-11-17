@@ -7,6 +7,7 @@ use App\Models\Colleges;
 use App\Models\Player;
 use App\Models\Sports;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AtheleteController extends Controller
@@ -66,6 +67,14 @@ class AtheleteController extends Controller
         $data['college'] = Colleges::all();
         return view('search.search', $data);
     }
+    public function searchPageCoach()
+    {
+        // $data['sport'] = Sports::all();
+
+        // dd('done');
+        $data['coach'] = User::withRole('coach')->get();
+        return view('search_coach.search', $data);
+    }
     public function searchcollege(Request $request)
     {
         // dd($request->sports);
@@ -90,7 +99,36 @@ class AtheleteController extends Controller
         return view('search.search', $data);
 
     }
+    public function searchCoach(Request $request)
+    {
+        // dd('done');
+        // $data['sport'] = Sports::all();
 
+        $request->validate([
+            // 'sports' => 'required',
+            'name' => 'required',
+        ]);
+
+
+            $data['coach'] = User::withRole('coach')->where('name', 'LIKE', '%' . $request->name . '%')->get();
+
+
+        return view('search_coach.search', $data);
+
+    }
+
+    public function showchcollege($id)
+    {
+        // dd($id);
+        $data['status'] = Colleges::find($id);
+      return  view('search.show', $data);
+    }
+    public function showchCoach($id)
+    {
+        // dd($id);
+        $data['user'] = User::find($id);
+      return  view('search_coach.show', $data);
+    }
     /**
      * Store a newly created resource in storage.
      *

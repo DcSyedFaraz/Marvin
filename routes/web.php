@@ -105,8 +105,15 @@ Route::post('/subscribe',[FrontendController::class,'subscribe'])->name('subscri
 
 // Backend section start
 Route::group(['prefix'=>'manage','middleware'=>['auth']],function(){
+    //Search College
     Route::get('/searchcollege',[AtheleteController::class,'searchPage'])->name('searchcollege.index');
     Route::get('/searchcolleges',[AtheleteController::class,'searchcollege'])->name('searchcollege.search');
+    Route::get('/showcolleges/{id}',[AtheleteController::class,'showchcollege'])->name('searchcollege.show');
+
+    //Search Coach
+    Route::get('/searchCoach',[AtheleteController::class,'searchPageCoach'])->name('searchCoach.index');
+    Route::get('/searchCoachs',[AtheleteController::class,'searchCoach'])->name('searchCoach.search');
+    Route::get('/showCoachs/{id}',[AtheleteController::class,'showchCoach'])->name('searchCoach.show');
 });
 
 Route::group(['prefix'=>'admin','middleware'=>['auth','role:admin']],function(){

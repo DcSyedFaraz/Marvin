@@ -31,20 +31,64 @@
 
             <!-- Display search results below this line -->
             @if (isset($college) && count($college) > 0)
-                <h3>Search Results:</h3>
-                <ul>
+                {{-- <h3>Search Results:</h3> --}}
+                <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-bordered" id="example1" width="100%" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>S.N.</th>
+                            <th>Name</th>
+                            <th>Sports</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach($college as $key=> $colleges)
+                              <tr>
+                                  <td>{{$key+1}}</td>
+                                  <td>{{$colleges->title}}</td>
+                                  <td>
+                                    @foreach ($colleges->sports as $sport)
+                                    <span class="badge badge-success">
+                                     {{ $sport->title }}
+                                     </span> @if (!$loop->last), @endif
+                                 @endforeach
+                                  </td>
+                                  <td >
+                                      @if($colleges->status=='active')
+                                          <span class="badge badge-success">{{$colleges->status}}</span>
+                                      @else
+                                          <span class="badge badge-warning">{{$colleges->status}}</span>
+                                      @endif
+                                  </td>
+
+                                  <td>
+                                      <a href="{{route('searchcollege.show',$colleges->id)}}" class="btn btn-primary btn-sm " style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="show profile" ><i class="fas fa-eye"></i></a>
+
+                                  </td>
+                              </tr>
+                            @endforeach
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                {{-- <ul>
                     @foreach ($college as $colleges)
-                        <li><a href="#" title="show profile">{{ $colleges->title }}</a>
+                        <li><a href="{{route('searchcollege.show',$colleges->id)}}" title="show profile">{{ $colleges->title }}</a>
                             <ul>
 
-                                {{-- @dd($colleges->sports) --}}
                                 @foreach ($colleges->sports as $names)
                                     <li>{{ $names->title }}</li>
                                 @endforeach
                             </ul>
                         </li>
                     @endforeach
-                </ul>
+                </ul> --}}
                 @else
                 <p>No Record Found</p>
             @endif
