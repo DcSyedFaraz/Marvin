@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FieldsValue;
+use App\Models\PlayerProfile;
 use App\Models\Sports;
 use App\Models\User;
 use DB;
@@ -87,6 +88,26 @@ class UserProfileController extends Controller
 
             $player = User::findOrFail($id);
 
+            $player->name = $request->input('name');
+            $player->email = $request->input('email');
+
+            if ($request->filled('password')) {
+                $player->password = Hash::make($request->input('password'));
+            }
+
+            $player->save();
+            
+            $playerProfile = PlayerProfile::where('user_id', $id)->first();
+            if ($playerProfile) {
+                if ($request->hasFile('profile_picture')) {
+                    $newImage = $request->file('profile_picture');
+                    $imageName = time() . '.' . $newImage->getClientOriginalExtension();
+                    $newImage->move(public_path('uploads/profile_pictures'), $imageName);
+                    $playerProfile->profile_picture = 'uploads/profile_pictures/' . $imageName;
+                    $playerProfile->save();
+                }
+            }
+
             if ($request->sport == $player->assigned_sport) {
                 foreach ($request['field_id'] as $key => $fieldId) {
 
@@ -115,7 +136,7 @@ class UserProfileController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()->with('error', 'Something went wrong. Please try again later.');
+            return redirect()->back()->with('error', 'Something went wrong. Please try again later.' . $e->getMessage());
         }
 
     }

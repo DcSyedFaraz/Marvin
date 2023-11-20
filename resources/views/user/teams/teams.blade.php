@@ -33,7 +33,7 @@
                                     <td ><span class="badge badge-success">{{ $team->sports->title }}</span></td>
                                     <td>{{ $team->csname->name }}</td>
                                     <td class="d-flex">
-                                        <a href="{{ route('athlete.edit', $team->id) }}" class="btn btn-primary "><i class="fas fa-info-circle"></i></a>
+                                        <a href="#" class="btn btn-primary "><i class="fas fa-info-circle"></i></a>
 
                                     </td>
                                 </tr>

@@ -74,7 +74,7 @@
                                         <td>
                                             <a href="{{ route('searchCoach.show', $coaches->id) }}"
                                                 class="btn btn-primary btn-sm "
-                                                style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip"
+                                                style="height:30px; width:32px;border-radius:50%" data-toggle="tooltip"
                                                 title="show profile"><i class="fas fa-eye"></i></a>
 
                                         </td>

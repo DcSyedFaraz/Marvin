@@ -41,6 +41,7 @@ class TeamController extends Controller
     {
         $data['sport'] = Sports::all();
         $data['field'] = Field::all();
+        $data['athletes'] = User::withRole('athelete')->get();
 
         return view('coach.search.search', $data);
     }

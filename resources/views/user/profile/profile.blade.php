@@ -50,6 +50,13 @@
                                                         value="{{ Auth::user()->name }}" required>
                                                 </div>
                                             </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <div class="form-group">
+                                                    <label for="name">Profile Pic</label>
+                                                    <input type="file" id="profile_picture" name="profile_picture" class="form-control"
+                                                        >
+                                                </div>
+                                            </div>
 
 
 

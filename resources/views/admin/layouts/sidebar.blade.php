@@ -45,46 +45,46 @@
         </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item {{ request()->routeIs('sport.*')? 'active' : '' }}">
         <a class="nav-link" href="{{route('sport.index')}}">
           <i class="fas fa-users"></i>
           <span>Sports</span>
         </a>
     </li>
 
-     <li class="nav-item">
+     <li class="nav-item {{ request()->routeIs('users.*')? 'active' : '' }}">
         <a class="nav-link" href="{{route('users.index')}}">
             <i class="fas fa-users"></i>
             <span>Users</span></a>
     </li>
-     <li class="nav-item">
+     {{-- <li class="nav-item {{ request()->routeIs('college.*')? 'active' : '' }}">
         <a class="nav-link" href="{{route('roles.index')}}">
             <i class="fas fa-users"></i>
             <span>Roles</span></a>
-    </li>
-     <li class="nav-item">
+    </li> --}}
+     {{-- <li class="nav-item ">
         <a class="nav-link" href="{{route('permission.index')}}">
             <i class="fas fa-users"></i>
             <span>Permissions</span></a>
-    </li>
-     <li class="nav-item">
+    </li> --}}
+     <li class="nav-item {{ request()->routeIs('teams.*')? 'active' : '' }}">
         <a class="nav-link" href="{{route('teams.index')}}">
             <i class="fas fa-users"></i>
             <span>Teams</span></a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item {{ request()->routeIs('post.*')? 'active' : '' }}">
         <a class="nav-link" href="{{ route('post.index') }}">
           <i class="fas fa-feather"></i>
           <span>Posts</span>
         </a>
       </li>
      <!-- General settings -->
-     <li class="nav-item">
+     <li class="nav-item {{ request()->routeIs('settings')? 'active' : '' }}">
         <a class="nav-link" href="{{route('settings')}}">
             <i class="fas fa-cog"></i>
             <span>Settings</span></a>
     </li>
-     <li class="nav-item">
+     <li class="nav-item {{ request()->routeIs('profile.*')? 'active' : '' }}">
         <a class="nav-link" href="{{route('profile.index')}}">
             <i class="fas fa-cog"></i>
             <span>Profile</span></a>
