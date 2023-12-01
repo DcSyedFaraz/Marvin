@@ -1,4 +1,5 @@
-@extends('coach.layouts.master')
+{{-- @extends('admin.layouts.master') --}}
+@extends(Auth::user()->hasRole('coach') ? 'coach.layouts.master' : 'admin.layouts.master')
 
 
 @section('main-content')

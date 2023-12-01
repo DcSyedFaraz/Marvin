@@ -129,6 +129,14 @@ class AtheleteController extends Controller
         $data['user'] = User::find($id);
       return  view('search_coach.show', $data);
     }
+    public function showcollegesCoach($id)
+    {
+        $data['coach'] = User::whereHas('coachSports', function ($query) use ($id) {
+            $query->where('colleges_id', $id);
+        })->get();
+        // dd($data['user']);
+      return  view('search.CoachesShow', $data);
+    }
     /**
      * Store a newly created resource in storage.
      *

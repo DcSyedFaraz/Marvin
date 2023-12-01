@@ -50,7 +50,7 @@ class PLayerController extends Controller
         // dd($results);
 
 
-        return view('coach.players.index', compact('players','results'));
+        return view('coach.players.index', compact('players', 'results'));
     }
 
     /**
@@ -121,7 +121,7 @@ class PLayerController extends Controller
      */
     public function show($id)
     {
-        $player = User::where('id', $id)->with('profile','fields')->first();
+        $player = User::where('id', $id)->with('profile', 'fields')->first();
         // dd($player);
 
         if (!$player) {
@@ -146,7 +146,7 @@ class PLayerController extends Controller
             return redirect()->route('manage-players.index')->with('error', 'Player not found.');
         }
         // dd($player);
-        return view('coach.players.manage', ['player' => $player,'sport' => $sport]);
+        return view('coach.players.manage', ['player' => $player, 'sport' => $sport]);
     }
 
     /**
@@ -175,7 +175,7 @@ class PLayerController extends Controller
 
             if ($request->sport == $player->assigned_sport) {
                 //For Fields
-                if($request->has('field_id')){
+                if ($request->has('field_id')) {
 
                     foreach ($request['field_id'] as $key => $fieldId) {
 
@@ -191,7 +191,7 @@ class PLayerController extends Controller
                     }
                 }
                 // For Stats
-                if($request->has('stats_id')){
+                if ($request->has('stats_id')) {
 
                     foreach ($request['stats_id'] as $key => $fieldId) {
 
@@ -284,5 +284,7 @@ class PLayerController extends Controller
             return redirect()->back()->with('error', 'An error occurred while deleting the player: ' . $e->getMessage());
         }
     }
+   
+
 
 }

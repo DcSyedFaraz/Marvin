@@ -68,6 +68,7 @@
 
                                   <td>
                                       <a href="{{route('searchcollege.show',$colleges->id)}}" class="btn btn-primary btn-sm " style="height:30px; width:32px;border-radius:50%" data-toggle="tooltip" title="show profile" ><i class="fas fa-eye"></i></a>
+                                      <a href="{{route('showcollegesCoach.show',$colleges->id)}}" class="btn btn-info btn-sm " style="height:30px; width:32px;border-radius:50%" data-toggle="tooltip" title="show Coaches info" ><i class="fas fa-info"></i></a>
 
                                   </td>
                               </tr>

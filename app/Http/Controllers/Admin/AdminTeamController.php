@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Player;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminTeamController extends Controller
@@ -15,7 +17,7 @@ class AdminTeamController extends Controller
      */
     public function index()
     {
-        $team = Team::get();
+        $team = Team::orderby('created_at','desc')->get();
         return view('admin.team.index', compact('team'));
     }
 
@@ -59,7 +61,12 @@ class AdminTeamController extends Controller
      */
     public function edit($id)
     {
-        //
+        // dd('done');
+        $players = Player::with('users')->where('team_id', $id)->get();
+        $team = Team::find($id);
+        $playersToAdd = User::withRole('athelete')->get();
+        // dd($players);
+        return view('coach.team.edit', compact('team', 'players', 'playersToAdd'));
     }
 
     /**
@@ -82,6 +89,11 @@ class AdminTeamController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            Team::destroy($id);
+             return redirect()->back()->with('success','Team Deleted Successfully');
+        } catch (\Exception $e){
+            return redirect()->back()->with('error', 'Something went wrong. Please try again later.' . $e->getMessage());
+        }
     }
 }

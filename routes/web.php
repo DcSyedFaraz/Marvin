@@ -109,6 +109,7 @@ Route::group(['prefix'=>'manage','middleware'=>['auth']],function(){
     Route::get('/searchcollege',[AtheleteController::class,'searchPage'])->name('searchcollege.index');
     Route::get('/searchcolleges',[AtheleteController::class,'searchcollege'])->name('searchcollege.search');
     Route::get('/showcolleges/{id}',[AtheleteController::class,'showchcollege'])->name('searchcollege.show');
+    Route::get('/showcollegesCoach/{id}',[AtheleteController::class,'showcollegesCoach'])->name('showcollegesCoach.show');
 
     //Search Coach
     Route::get('/searchCoach',[AtheleteController::class,'searchPageCoach'])->name('searchCoach.index');
@@ -219,7 +220,7 @@ Route::group(['prefix'=>'/high_school','middleware'=>['auth','role:high_school']
 
 
 // coach
-Route::group(['prefix'=>'/coach','middleware'=>['auth','role:coach']],function(){
+Route::group(['prefix'=>'/coach','middleware'=>['auth','role:coach|admin']],function(){
     Route::get('/dashboard',[HomeController::class,'coach'])->name('coach.dashboard');
     Route::get('/colleges',[CollegesController::class,'index'])->name('colleges.dashboard');
     Route::get('/resend/{id}', [PlayerInTeamController::class, 'resend'])->name('invite.resend');

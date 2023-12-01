@@ -22,7 +22,7 @@
             <i class="fas fa-cog"></i>
             <span>Teams</span></a>
     </li>
-    <li class="nav-item {{ request()->routeIs('searchcollege.*') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->routeIs(['searchcollege.*','showcollegesCoach.show']) ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('searchcollege.index') }}">
             <i class="fas fa-graduation-cap"></i>
             <span>Search College</span></a>
