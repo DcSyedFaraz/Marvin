@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_profiles', function (Blueprint $table) {
-            Schema::create('user_profiles', function (Blueprint $table) {
                 $table->id();
                 $table->unsignedBigInteger('user_id'); // Foreign key to the users table
                 $table->string('school')->nullable();
@@ -31,7 +30,7 @@ return new class extends Migration
 
                 // Define foreign key relationship to the users table
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            });
+
         });
     }
 

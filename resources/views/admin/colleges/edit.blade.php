@@ -41,6 +41,25 @@
                         @enderror
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="inputTitle" class="col-form-label">Camp Link</label>
+                        <input id="inputTitle" type="url" value="{{ $college->camp }}" name="camp"
+                            placeholder="Enter camp" value="{{ old('camp') }}" class="form-control">
+                        @error('camp')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail" class="col-form-label">Questionaire Link</label>
+                        <input id="inputTitle" type="url" value="{{ $college->question }}" id="location-input"
+                            name="question" placeholder="Enter question" value="{{ old('question') }}" class="form-control">
+                        @error('question')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="form-group col-md-6">

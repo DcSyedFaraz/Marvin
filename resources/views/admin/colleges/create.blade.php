@@ -40,6 +40,25 @@
                         @enderror
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="inputTitle" class="col-form-label">Camp Link</label>
+                        <input id="inputTitle" type="text" name="camp" placeholder="Enter camp"
+                            value="{{ old('camp') }}" class="form-control">
+                        @error('camp')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail" class="col-form-label">Questionaire Link</label>
+                        <input id="inputTitle" type="text" id="location-input" name="question"
+                            placeholder="Enter question" value="{{ old('question') }}" class="form-control">
+                        @error('question')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="form-group col-md-6">
@@ -88,8 +107,8 @@
 
                     <div class="form-group col-md-3">
                         <label for="inputEmail" class="col-form-label">Twitter URL</label>
-                        <input id="inputTitle" type="text" id="location-input" name="twitter" placeholder="Enter Twitter"
-                            value="{{ old('twitter') }}" class="form-control">
+                        <input id="inputTitle" type="text" id="location-input" name="twitter"
+                            placeholder="Enter Twitter" value="{{ old('twitter') }}" class="form-control">
                         @error('twitter')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -180,7 +199,6 @@
             <button class="btn btn-success" type="submit">Submit</button>
         </div>
         </form>
-    </div>
     </div>
 @endsection
 @push('scripts')

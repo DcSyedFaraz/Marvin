@@ -230,6 +230,8 @@ class CollegesController extends Controller
 
             $status = new Colleges();
             $status->title = $data['title'];
+            $status->camp = $data['camp'];
+            $status->question = $data['question'];
             $status->type = $data['type'];
             $status->country = $data['country'];
             $status->location = $data['location'];
@@ -331,6 +333,8 @@ class CollegesController extends Controller
             $data = $request->all();
             $status = $colleges->find($id);
             $status->title = $data['title'];
+            $status->camp = $data['camp'];
+            $status->question = $data['question'];
             $status->type = $data['type'];
             $status->country = $data['country'];
             $status->location = $data['location'];

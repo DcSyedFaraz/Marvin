@@ -1,5 +1,10 @@
 @extends('user.layouts.master')
 @section('main-content')
+<style>
+    div#example1_filter{
+        display: none;
+    }
+</style>
     <div class="content-wrapper">
         <div class="container mt-5">
             <h2>College Search</h2>
@@ -69,6 +74,8 @@
                                   <td>
                                       <a href="{{route('searchcollege.show',$colleges->id)}}" class="btn btn-primary btn-sm " style="height:30px; width:32px;border-radius:50%" data-toggle="tooltip" title="show profile" ><i class="fas fa-eye"></i></a>
                                       <a href="{{route('showcollegesCoach.show',$colleges->id)}}" class="btn btn-info btn-sm " style="height:30px; width:32px;border-radius:50%" data-toggle="tooltip" title="show Coaches info" ><i class="fas fa-info"></i></a>
+                                      <a href="{{$colleges->camp ?? '#'}}" target="blank" class="btn btn-warning btn-sm " style="height:30px; width:32px;border-radius:50%" data-toggle="tooltip" title="show camp info" ><i class="fas fa-info-circle"></i></a>
+                                      <a href="{{$colleges->question ?? '#'}}" target="blank" class="btn btn-secondary btn-sm " style="height:30px; width:32px;border-radius:50%" data-toggle="tooltip" title="show Questionaire" ><i class="fas fa-question-circle"></i></a>
 
                                   </td>
                               </tr>
